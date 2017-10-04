@@ -57,7 +57,7 @@ Convert ASM to binary ML.
  * branches if else else if
  * arrays
  * structs (to become classes)
- * ^^^ ^^^ ^^^ ^^^ ^^^ you did this
+ * ^^^ ^^^ ^^^ ^^^ ^^^ you will do this:)
  * Operating Systems C Lesson Assignment 1
  * 
  * Operating Systems and C and Theory and Algorithms Lessons
