@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 // Makefile
 // make
@@ -48,6 +49,51 @@ int main(int argc, char** argv) {
   for(ii = 0 ; ii < 50 ; ii++ ) {
     printf("%d\n", array[ii]);
   }
+
+  // pre-allocated array - not as useful
+  int twoDArrayOldStyle[1000][1000];
+  for(i = 0 ; i < 1000; ++i ) {
+    for(ii = 0 ; ii < 1000; ii++ ) {
+      twoDArrayOldStyle[i][ii] = 1;
+    }
+  }
+
+  puts("Too big?");
+  //int twoDArrayHuge[1000][1000];
+  // dynamically allocated array
+  int m = 100000;
+  int n = 100000;
+  int diameter = 5;
+  // twoDArray is a memory address of an array of memory addresses
+  int** twoDArray;
+  twoDArray = malloc(m * sizeof(void*));
+  for(i = 0 ; i < m ; ++i ) {
+    twoDArray[i] = malloc(n * sizeof(int));
+  }
+  puts("Can I assign memory into my 2d array?");
+  for(i = 0 ; i < m; ++i ) {
+    for(ii = 0 ; ii < n; ii++ ) {
+      if( sqrt(abs(i-m/2)*abs(ii-n/2)) < diameter && sqrt(abs(i-m/2)*abs(ii-n/2) > diameter-1 ) ) {
+        twoDArray[i][ii] = 1;
+      }
+      else {
+        twoDArray[i][ii] = 0;
+      }
+    }
+  }
+  /*
+  for(i = 0 ; i < m ; ++i ) {
+    for(ii = 0 ; ii < n; ii++ ) {
+      printf("%d", twoDArray[i][ii]);
+    }
+    printf("\n");
+  }
+  */
+  char x = getc(stdin);
+  for(i = 0 ; i < m ; ++i ) {
+    free(twoDArray[i]);
+  }
+  free(twoDArray);
   
   // TODO: how to convert an integer value into a binary output / memory address
 }
