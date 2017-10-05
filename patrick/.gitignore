@@ -1,0 +1,4 @@
+*.out
+!*.*
+/build
+.DS_Store
