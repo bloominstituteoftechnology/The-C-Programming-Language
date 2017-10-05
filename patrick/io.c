@@ -22,5 +22,16 @@ int main() {
   fclose(f);
 
   /* read in the file and display it to the console */
+  FILE *o  = fopen("test.txt", "r");
+  int p;
+  while (1) {
+    p = fgetc(o);
+    if (feof(o)) {
+      break;
+    }
+    printf("%c", p);
+  }
+  fclose(o);
 
+  return 0;
 }
