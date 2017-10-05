@@ -55,7 +55,7 @@ Convert ASM to binary ML.
 - C program which stamps images
 - at least one template structures, or 3.
 - Function to create template (like TC's function)
-- how to read in a file with C (similar to getchar)
+- how to read in a file with C (similar to getchar): `fopen` ?
 - Create a 1024 x 768 array, with RGB (3d array or 3 2d arrays?)
 - using template, load template and place inside large array
 - write out stamped image into a ppm (ASCII or binary)
