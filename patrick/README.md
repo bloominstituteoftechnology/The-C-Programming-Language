@@ -75,6 +75,12 @@ Calling method:
 Extra Credit: use a third party library to output a .png file from your array
 
 
+* Allocate memory for your image
+* Write to a file
+* Learn the PPM image format
+* Read arguments from the command line and parse them
+
+
 # C language elements
 
      * primitives (int char float double)
