@@ -14,7 +14,7 @@ int main() {
   /* add an integer and float */
   int i = 1;
   float py = 3.1415927;
-  fprintf(file, "An integer : %d\nI love Pie : %f\n", i, py);
+  fprintf(file, "An integer : %d\nI love Pie git rm --cached FILENAME: %f\n", i, py);
   /* add a single chatacters */
   char c = 'X';
   fprintf(file, "A character: '%c'\n", c);
