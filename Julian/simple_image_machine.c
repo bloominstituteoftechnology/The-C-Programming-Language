@@ -22,6 +22,7 @@ void applyTemplate(int** picture, struct template template1, int picWidth, int p
             };
         };
         k++;
+        };
     };
 };
 
@@ -56,7 +57,7 @@ int main(int argc, char** argv)
     };
     for(i = 0 ; i < m ; ++i ) {
         free(pictureArray[i]);
-      }
-      free(pictureArray);
+    }
+    free(pictureArray);
     return 0;
 };
