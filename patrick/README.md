@@ -75,6 +75,32 @@ Calling method:
 NOTE from Wesley:
 > ...the getopt function is in #include <unistd.h> library, so you have to add that along with #include <stdio.h>. and finally, getopt only works with option arguments, like -o, or -x , so the template names and numbers are taken from argv directly, not from using getopt.
 
+MacBook-Pro-thomcom-2:assignment thomcom$ cat main_program.c
+```c
+#include <stdio.h>
+#include "template1.h"
+#include "template2.h"
+
+int main(int argc, char** argv) {
+  // Read arguments from the command line!
+  for(int i = 0 ; i < argc ; ++i ) {
+    // what goes in here?
+    // or just use _getopt and figure out how to use it
+  }
+
+  // Create an array to store our output image in in r,g, and b
+
+  // Create templates based on the arguments that were passed in
+  struct template1 myFirstTemplate = getTemplate1();
+
+  // write the data from the template to the coordinates specified by args
+  // into the output image array
+
+  // write the arraty to the file name specified by the -o option
+}
+```
+
+
 Extra Credit: use a third party library to output a .png file from your array
 
 
