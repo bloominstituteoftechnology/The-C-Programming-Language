@@ -4,7 +4,10 @@
 
 int main(int argc, char** argv, struct template1) 
 {
-int i;
+    struct {
+
+    }
+    int i;
 int j;
 int k = 0;
 int l = 0;
