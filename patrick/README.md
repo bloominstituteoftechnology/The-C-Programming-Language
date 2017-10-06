@@ -70,7 +70,10 @@ Write a C program that: stamps images
 
 Calling method:
 
-    simple_image_machine duck 40,100 circle 90,500 turkey 600,600 square 200,200 -o outputfile.ppm
+    simple_image_machine -o outputfile.ppm duck 40 100 circle 90  500 turkey 600 600 square 200 200
+
+NOTE from Wesley:
+> ...the getopt function is in #include <unistd.h> library, so you have to add that along with #include <stdio.h>. and finally, getopt only works with option arguments, like -o, or -x , so the template names and numbers are taken from argv directly, not from using getopt.
 
 Extra Credit: use a third party library to output a .png file from your array
 
