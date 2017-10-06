@@ -21,7 +21,7 @@ int main() {
     }
   }
   // system("convert picture.ppm picture.png");
-  system("/usr/local/bin/ffmpeg -i picture.ppm picture.png");
+  system("/usr/local/bin/ffmpeg -i picture.ppm picture.png"); // exec?
   // remove("picture.ppm");
   return 0;
 }
