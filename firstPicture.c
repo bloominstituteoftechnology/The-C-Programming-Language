@@ -1,6 +1,6 @@
 int main() {
-  int width = 255;
-  int height = 255;
+  int width = 1024;
+  int height = 768;
 
   FILE *image = fopen("picture.ppm", "wb");
   fprintf(image, "P3\n");
