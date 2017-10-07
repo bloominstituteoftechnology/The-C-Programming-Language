@@ -1,7 +1,7 @@
-
 #include <stdio.h>
+
 #include "template1.h"
-#include "template2.h"
+#include "template5x5.h"
 
 int main(int argc, char** argv) {
   // Read arguments from the command line!
@@ -14,6 +14,13 @@ int main(int argc, char** argv) {
 
   // Create templates based on the arguments that were passed in
   struct template1 myFirstTemplate = getTemplate1();
+
+  for (int i = 0; i < myFirstTemplate.size; i++) {
+    for(int j= 0; j < myFirstTemplate.size; j++) {
+      printf("%d", myFirstTemplate.stamp[i][j]);
+    }
+    printf("\n");
+  }
 
   // write the data from the template to the coordinates specified by args
   // into the output image array

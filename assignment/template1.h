@@ -3,14 +3,15 @@
 /**
  * struct template1 contains a two dimensional array of image data
  */ 
-struct template1 {
+struct template1{
   // this must be free()ed after it has been malloced
-  char** data;
+  int** stamp;
+  int size;
+  int* color;
 };
 
 /**
  * getTemplate1() returns the first template for this program
  */
 struct template1 getTemplate1();
-
 
