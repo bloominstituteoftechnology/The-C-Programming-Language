@@ -3,7 +3,7 @@
  * ----------------------
  * 
  * OCTOBER 6, 2017
- * VERSION 0.2
+ * VERSION 0.2_1
  *
  ***************************************************************************************************/
 
@@ -52,17 +52,28 @@ typedef struct {
 
 /* PIXEL INFORMATION */
 #define PIXEL_S sizeof(PIXEL)
-#define RED   235
-#define GREEN 235
-#define BLUE  235
-#define WHITE (PIXEL){RED, GREEN, BLUE}
-#define BLACK (PIXEL){16, 16, 16}
-#define GRAY (PIXEL){165, 165, 165}
+
+/* PIXEL COLOR VALUES */
+#define RED_MAX   0xEB /* dec 235 */
+#define GREEN_MAX 0xEB
+#define BLUE_MAX  0xEB
+#define WHITE (PIXEL){RED_MAX, GREEN_MAX, BLUE_MAX}
+
+#define RED_MIN   0xF /* dec 235 */
+#define GREEN_MIN 0xF
+#define BLUE_MIN  0xF
+#define BLACK (PIXEL){RED_MIN, GREEN_MIN, BLUE_MIN}
+
+#define RED_MID 0x6d /* dec 109 (235-16)/2 */
+#define GREEN_MID 0x6d
+#define BLUE_MID 0x6d
+#define GRAY (PIXEL){RED_MID, GREEN_MID, BLUE_MID}
+
 #define EMPTY (PIXEL){0, 0, 0}
 
 /* PPM DATA */
 #define PPM_TYPE "P6"
-#define MAXVAL 0xFFFF
+#define MAXVAL 0xFF
 
 /* USED WHEN OPENING FILES FOR READING AND WRITING */
 FILE* fp;
