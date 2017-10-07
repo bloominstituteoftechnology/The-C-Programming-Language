@@ -30,8 +30,8 @@ int main(int argc, char** argv) {
   int** d;
   //(cp->cp->c);
   //**c = 7;
-  //printf("c: %d", **c); 
-  
+  //printf("c: %d", **c);
+
   char e = 'e';
   char f = 95;
 
@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
   //let radical = {};
   //let less_radical = [];
   //less_radical.push(5);
-  
+
   int array[50];
   int i;
   for(i = 0 ; i < 50 ; ++i ) {
@@ -94,7 +94,6 @@ int main(int argc, char** argv) {
     free(twoDArray[i]);
   }
   free(twoDArray);
-  
+
   // TODO: how to convert an integer value into a binary output / memory address
 }
-
