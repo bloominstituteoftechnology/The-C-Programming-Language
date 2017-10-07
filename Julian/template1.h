@@ -1,11 +1,12 @@
-#define TEMPLATE_1 = { {0,0,0,0,1,1,1,0,0,0}, {0,0,0,0,1,1,1,0,0,0}, {0,0,0,0,1,1,1,0,0,0}, {0,0,0,0,1,1,1,0,0,0}, {0,0,0,0,1,1,1,0,0,0}, {0,0,0,0,1,1,1,0,0,0}, {0,0,0,0,1,1,1,0,0,0}, {0,0,0,0,1,1,1,0,0,0}, {0,0,0,0,1,1,1,0,0,0}, {0,0,0,0,1,1,1,0,0,0} }
-
+#define TEMPLATE_1
 /**
  * struct template1 contains a two dimensional array of image data
  */ 
-struct template1 {
+struct template1{
   // this must be free()ed after it has been malloced
-  char** data;
+  int** stamp;
+  int size;
+  char* color;
 };
 
 /**

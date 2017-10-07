@@ -1,26 +1,22 @@
 /*  yellowSquare.c  */
 #include <stdio.h>
 #include <stdlib.h>
+#include "template1.h"
 
-struct template {
-    int** stamp;
-    int size;
-    char* color;
-};
 
-void applyTemplate(int** picture, struct template template1, int picWidth, int picHeight, int offsetX, int offsetY) {
+void applyTemplate(int** picture, struct template1 template, int picWidth, int picHeight, int offsetX, int offsetY) {
     int i = 0;
     int j = 0;
     int k = 0;
     int l = 0;
-    for(i; i < picWidth; ++i) {
+    for(i = 0; i < picWidth; ++i) {
         if (i == k + offsetX) {
-        for(j; j < picHeight; ++j) {
-            if (j == l + offsetY) {
-                picture[i][j] = template1.stamp[k][l];
-                l++;
+            for(j = 0; j < picHeight; ++j) {
+                if (j == l + offsetY) {
+                    picture[i][j] = template.stamp[k][l];
+                    l++;
+                };
             };
-        };
         k++;
         };
     };
