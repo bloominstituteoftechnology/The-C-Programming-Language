@@ -62,7 +62,7 @@ Write a C program that: stamps images
 
 Calling method:
 
-    simple_image_machine duck 40,100 circle 90,500 turkey 600,600 square 200,200 -o outputfile.ppm
+    simple_image_machine -o outputfile.ppm duck 40 100 circle 90  500 turkey 600 600 square 200 200
 
 Extra Credit: use a third party library to output a .png file from your array
 
