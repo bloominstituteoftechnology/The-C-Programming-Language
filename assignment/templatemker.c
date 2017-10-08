@@ -3,7 +3,7 @@
  * --------------
  *
  * OCTOBER 7, 2017
- * VERSION 0.3_a
+ * VERSION 0.3_c
  *
  ***************************************************************************************************/
 
@@ -12,7 +12,7 @@
 
 #include "./simple_image_machine.h"
 
-#define VERSION 0.3
+#define VERSION 0.3_c
 #define DESCRIPTION "Program to make a template for 'simple_image_machine'.\n\
 Give a number (1, 2, 3, etc) for the template using the option -t <template-num>.\n\
 The default size is 1024 x 768, but you can enter an explicit size after the number.\n"
@@ -28,17 +28,19 @@ typedef struct {
   int z;
   int x_intersect;
   int y_intersect;
-  int x_percent;
-  int y_percent;
-  int z_percent;
+  float x_percent;
+  float y_percent;
+  float z_percent;
   int line;
-  int diag_gradient;
+  float line_percent;
+  float diag_gradient;
 } PIXEL_INFO;
 
 PIXEL_INFO pixel_info(int, int, int , int);
 #define DEFAULT_WIDTH  WIDTH
 #define DEFAULT_HEIGHT HEIGHT
 
+void showPixel(PIXEL);
 void showPixelInfo(PIXEL_INFO);
 int all_one_color(PIXEL_INFO, PIXEL, int);
 int gradient(PIXEL_INFO, int);
@@ -143,12 +145,13 @@ int main(int argc, char** argv) {
 PIXEL_INFO pixel_info(int x, int y, int width, int height) {
   int y_intersect = y - x; /* positive when y > x */
   int x_intersect = x - y; /* positive when x > y */
-  int x_percent = ((float)x / width) * 100;
-  int y_percent = ((float)y / height) * 100;
+  float x_percent = (float)x / width;
+  float y_percent = (float)y / height;
   int z = (int)(sqrt(((float)x * x) + ((float)y * y)));
-  int z_percent = (int)(sqrt(((float)width * width) + (float)(height * height))) * 100;
+  float z_percent = sqrt(((float)width * width) + (float)(height * height)) * 100;
   int line = 10 + y_intersect;
-  int diag_gradient = (((float)line / (width + height)) * 100 );
+  float line_percent = (float)line / (height * 2);
+  float diag_gradient = (float)line / (width + height);
 
   return (PIXEL_INFO){
       width,
@@ -162,8 +165,16 @@ PIXEL_INFO pixel_info(int x, int y, int width, int height) {
       y_percent,
       z_percent,
       line,
+      line_percent,
       diag_gradient,
     };
+}
+
+/***************************************************************************************************
+ * SHOWPIXEL                                                                                       *
+ ***************************************************************************************************/
+void showPixel(PIXEL p) {
+  printf("red: %02hhx  green: %02hhx  blue: %02hhx\n", p.red, p.green, p.blue);
 }
 
 /***************************************************************************************************
@@ -171,13 +182,16 @@ PIXEL_INFO pixel_info(int x, int y, int width, int height) {
  ***************************************************************************************************/
 void showPixelInfo(PIXEL_INFO pi) {
   printf("(%d, %d, %d) %d x %d @ line %d\n", pi.x, pi.y, pi.z, pi.width, pi.height, pi.line);
-  printf("x-i: %d y-i: %d\n\n", pi.x_intersect, pi.y_intersect);
+  printf("x-i: %d y-i: %d\n", pi.x_intersect, pi.y_intersect);
+  printf("x-percent: %2.2f%%  y-percent: %2.2f%%  line-percent: %2.2f%%\n",
+         pi.x_percent * 100, pi.y_percent * 100, pi.line_percent * 100);
 }
 
 /***************************************************************************************************
- * ALL_ONE_COLOR                                                                                   *
+ * ALL_ONE_COLOR: -t 1 (WHITE) 2 (BLACK) 3 (GRAY)                                                  *
  ***************************************************************************************************/
 int all_one_color(PIXEL_INFO pi, PIXEL pixel_color, int byte_count) {
+  showPixel(pixel_color);
   if ((fwrite(&pixel_color, PIXEL_S, 1, fp) != 1)) {
     fprintf(stderr, "ERROR writing PIXEL in `all_one_color'\n");
     exit(EXIT_FAILURE);
@@ -185,13 +199,17 @@ int all_one_color(PIXEL_INFO pi, PIXEL pixel_color, int byte_count) {
   return byte_count += PIXEL_S;
 }
 
-
+/***************************************************************************************************
+ * GRADIENT: -t 4                                                                                  *
+ ***************************************************************************************************/
 int gradient(PIXEL_INFO pi, int byte_count) {
   /* showPixelInfo(pi); */
-  color p_red = RED_MAX * (pi.line / (2 * pi.height));
+  color p_red = RED_MAX * pi.line_percent;
   color p_green = p_red;
   color p_blue = p_red;
   PIXEL p = (PIXEL){p_red, p_green, p_blue};
+  /* showPixel(p); */
+  /* printf("\n"); */
   if ((fwrite(&p, PIXEL_S, 1, fp) != 1)) {
     fprintf(stderr, "ERROR writing PIXEL in `gradient'\n");
     exit(EXIT_FAILURE);

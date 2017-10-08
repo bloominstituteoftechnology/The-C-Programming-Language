@@ -3,7 +3,7 @@
  * ----------------------
  * 
  * OCTOBER 7, 2017
- * VERSION 0.3
+ * VERSION 0.3_a
  *
  ***************************************************************************************************/
 
@@ -59,9 +59,9 @@ typedef struct {
 #define BLUE_MAX  0xEB
 #define WHITE (PIXEL){RED_MAX, GREEN_MAX, BLUE_MAX}
 
-#define RED_MIN   0xF /* dec 235 */
-#define GREEN_MIN 0xF
-#define BLUE_MIN  0xF
+#define RED_MIN   0x0F /* dec 235 */
+#define GREEN_MIN 0x0F
+#define BLUE_MIN  0x0F
 #define BLACK (PIXEL){RED_MIN, GREEN_MIN, BLUE_MIN}
 
 #define RED_MID 0x6d /* dec 109 (235-16)/2 */
