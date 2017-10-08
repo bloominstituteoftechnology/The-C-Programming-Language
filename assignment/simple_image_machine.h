@@ -2,8 +2,8 @@
  * simple_image_machine.h
  * ----------------------
  * 
- * OCTOBER 6, 2017
- * VERSION 0.2_3
+ * OCTOBER 7, 2017
+ * VERSION 0.3
  *
  ***************************************************************************************************/
 
@@ -29,7 +29,7 @@ char** argv;
  * A row of  an image is horizontal. A column  is vertical. The pixels
  * in the image are square and contiguous. */
 
-typedef unsigned short color;
+typedef char color;
 
 /* PIXEL DEFINITION */
 typedef struct {
@@ -73,7 +73,7 @@ typedef struct {
 
 /* PPM DATA */
 #define PPM_TYPE "P6"
-#define MAXVAL 0xFFFF
+#define MAXVAL 0xFF
 
 /* USED WHEN OPENING FILES FOR READING AND WRITING */
 FILE* fp;
