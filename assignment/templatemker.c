@@ -3,7 +3,7 @@
  * --------------
  *
  * OCTOBER 7, 2017
- * VERSION 0.2_5
+ * VERSION 0.2_6
  *
  ***************************************************************************************************/
 
@@ -64,7 +64,13 @@ int main(int argc, char** argv) {
       PIXEL_INFO p_info = pixel_info(w, h);
       switch (template_num) {
       case 1:
+        count = all_one_color(p_info, WHITE, count);
+        break;
+      case 2:
         count = all_one_color(p_info, BLACK, count);
+        break;
+      case 3:
+        count = all_one_color(p_info, GRAY, count);
         break;
       default:
         ;
@@ -110,7 +116,7 @@ PIXEL_INFO pixel_info(int x, int y) {
 
 int all_one_color(PIXEL_INFO pi, PIXEL pixel_color, int count) {
   if ((fwrite(&pixel_color, PIXEL_S, 1, fp) != 1)) {
-    fprintf(stderr, "ERROR writing WHITE PIXEL in `all_white'\n");
+    fprintf(stderr, "ERROR writing PIXEL in `all_one_color'\n");
     exit(EXIT_FAILURE);
   }
   return count += PIXEL_S;
