@@ -43,9 +43,9 @@ int main() {
       // int green = (row * (max + 1)) / width;
       // int blue = (row * (max + 1)) / width;
       /* AWESOME COLOR FIELDS *******************************************/
-      int red = fabs(floor((row * (max + 1) / width - 35)));
-      int green = fabs(floor((col * (max + 1) / width - 112)));
-      int blue = fabs(floor((col * (max + 1) / width - 92)));
+      int red = abs(row * (max + 1) / width - 35);
+      int green = abs(col * (max + 1) / width - 112);
+      int blue = abs(col * (max + 1) / width - 92);
 
       /*****************************************************
        * WRITE PPM DATA

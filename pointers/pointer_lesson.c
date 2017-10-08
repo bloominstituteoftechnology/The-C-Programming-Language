@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 /***********************************************
- * This is Array Pointer Assignment Rapping 
+ * This is Array Pointer Assignment Rapping
  ***********************************************/
 int* childOfMainWithAllocation() {
   // these are both 10 item integer arrays, why so obfuscated, C?
@@ -46,7 +46,7 @@ void doThePointerAssignmentTest() {
 }
 
 /***********************************************
- * This is struct Pointer Assignment Rapping 
+ * This is struct Pointer Assignment Rapping
  ***********************************************/
 struct radDoublyLinkedList {
   struct radDoublyLinkedList* next;
@@ -70,7 +70,7 @@ void radDoublyLinkedListAdd(struct radDoublyLinkedList* list, int value)
 }
 
 /***********************************************
- * This is Array Pointer Assignment Rapping 
+ * This is Array Pointer Assignment Rapping
  ***********************************************/
 int main(int argc, char** argv) {
   doThePointerAssignmentTest();
@@ -78,7 +78,6 @@ int main(int argc, char** argv) {
   while(list->next != NULL) {
     struct radDoublyLinkedList* freeItem = list;
     list = list->next;
-    free(freeItem); 
+    free(freeItem);
   }
 }
-

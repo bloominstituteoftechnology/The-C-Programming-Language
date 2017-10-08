@@ -3,8 +3,8 @@
 #include <math.h>
 
 int main() {
-  const int width = 1024, height = 768;
-  // const int width = 40, height = 30;
+  // const int width = 1024, height = 768;
+  const int width = 40, height = 30;
 
   /*******************************************
    * 3 x 8-bit color channels
@@ -25,9 +25,9 @@ int main() {
   for (row = 0; row < height; ++row) {
     for (col = 0; col < width; ++col) {
       /* 40 x 30 small example greyscale - switch lines 6 and seven *****/
-      // int red = (col * (max + 1)) / width;
-      // int green = (col * (max + 1)) / width;
-      // int blue = (col * (max + 1)) / width;
+      int red = (col * (max + 1)) / width;
+      int green = (col * (max + 1)) / width;
+      int blue = (col * (max + 1)) / width;
       /* 4x3 image blocks ***********************************************/
       // int red = col % (max + 1);
       // int green = row % (max + 1);
@@ -43,9 +43,9 @@ int main() {
       // int green = (row * (max + 1)) / width;
       // int blue = (row * (max + 1)) / width;
       /* AWESOME COLOR FIELDS *******************************************/
-      int red = fabs(floor((row * (max + 1) / width - 35)));
-      int green = fabs(floor((col * (max + 1) / width - 112)));
-      int blue = fabs(floor((col * (max + 1) / width - 92)));
+      // int red = abs(row * (max + 1) / width - 35);
+      // int green = abs(col * (max + 1) / width - 112);
+      // int blue = abs(col * (max + 1) / width - 92);
 
       /*****************************************************
        * WRITE PPM DATA
