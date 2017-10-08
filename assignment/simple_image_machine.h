@@ -3,7 +3,7 @@
  * ----------------------
  * 
  * OCTOBER 6, 2017
- * VERSION 0.2_1
+ * VERSION 0.2_2
  *
  ***************************************************************************************************/
 
@@ -79,6 +79,9 @@ typedef struct {
 FILE* fp;
 #define READ  "r"
 #define WRITE "w"
+
+/* given three colors red, green, blue, returns a new PIXEL */
+PIXEL makeColor(color, color, color);
 
 /* returns the name of the outputfile '-o outputfile' */
 char* getoutputfile();
