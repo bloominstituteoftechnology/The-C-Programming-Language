@@ -3,7 +3,7 @@
  * ----------------------
  * 
  * OCTOBER 7, 2017
- * VERSION 0.3_a
+ * VERSION 0.3_b
  *
  ***************************************************************************************************/
 
@@ -70,6 +70,8 @@ typedef struct {
 #define GRAY (PIXEL){RED_MID, GREEN_MID, BLUE_MID}
 
 #define RED (PIXEL){RED_MAX, GREEN_MIN, BLUE_MIN}
+#define GREEN (PIXEL){RED_MIN, GREEN_MAX, BLUE_MIN}
+#define BLUE (PIXEL){RED_MIN, GREEN_MIN, BLUE_MAX}
 
 #define PIXEL_COLOR_RANGE (RED_MAX - RED_MIN)
 

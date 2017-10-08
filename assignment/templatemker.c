@@ -3,7 +3,7 @@
  * --------------
  *
  * OCTOBER 7, 2017
- * VERSION 0.3_d
+ * VERSION 0.3_f
  *
  ***************************************************************************************************/
 
@@ -12,7 +12,7 @@
 
 #include "./simple_image_machine.h"
 
-#define VERSION 0.3_d
+#define VERSION 0.3_f
 #define DESCRIPTION "Program to make a template for 'simple_image_machine'.\n\
 Give a number (1, 2, 3, etc) for the template using the option -t <template-num>.\n\
 The default size is 1024 x 768, but you can enter an explicit size after the number.\n"
@@ -43,7 +43,8 @@ PIXEL_INFO pixel_info(int, int, int , int);
 void showPixel(PIXEL);
 void showPixelInfo(PIXEL_INFO);
 int all_one_color(PIXEL_INFO, PIXEL, int);
-int gradient(PIXEL_INFO, int);
+int diag_gradient(PIXEL_INFO, int);
+int horiz_gradient(PIXEL_INFO, int);
 
 /***************************************************************************************************
  * MAIN                                                                                            *
@@ -120,10 +121,14 @@ int main(int argc, char** argv) {
         byte_count = all_one_color(p_info, GRAY, byte_count);
         break;
       case 4:
-        byte_count = all_one_color(p_info, RED, byte_count);
+        byte_count = all_one_color(p_info, BLUE, byte_count);
         break;
       case 5:
-        byte_count = gradient(p_info, byte_count);
+        byte_count = diag_gradient(p_info, byte_count);
+        break;
+      case 6:
+        byte_count = horiz_gradient(p_info, byte_count);
+        break;
       default:
         ;
       }
@@ -194,7 +199,7 @@ void showPixelInfo(PIXEL_INFO pi) {
  * ALL_ONE_COLOR: -t 1 (WHITE) 2 (BLACK) 3 (GRAY)                                                  *
  ***************************************************************************************************/
 int all_one_color(PIXEL_INFO pi, PIXEL pixel_color, int byte_count) {
-  showPixel(pixel_color);
+  /* showPixel(pixel_color); */
   if ((fwrite(&pixel_color, PIXEL_S, 1, fp) != 1)) {
     fprintf(stderr, "ERROR writing PIXEL in `all_one_color'\n");
     exit(EXIT_FAILURE);
@@ -203,18 +208,33 @@ int all_one_color(PIXEL_INFO pi, PIXEL pixel_color, int byte_count) {
 }
 
 /***************************************************************************************************
- * GRADIENT: -t 5                                                                                  *
+ * DIAG_GRADIENT: -t 5                                                                             *
  ***************************************************************************************************/
-int gradient(PIXEL_INFO pi, int byte_count) {
+int diag_gradient(PIXEL_INFO pi, int byte_count) {
   /* showPixelInfo(pi); */
-  color p_red = (color)(PIXEL_COLOR_RANGE * pi.line_percent) + RED_MIN;
-  color p_green = p_red;
-  color p_blue = p_red;
+  color p_red = RED_MIN + (color)PIXEL_COLOR_RANGE * 2 * pi.line_percent;
+  color p_green = GREEN_MIN;
+  color p_blue = BLUE_MIN;
   PIXEL p = (PIXEL){p_red, p_green, p_blue};
   /* showPixel(p); */
   /* printf("\n"); */
   if ((fwrite(&p, PIXEL_S, 1, fp) != 1)) {
-    fprintf(stderr, "ERROR writing PIXEL in `gradient'\n");
+    fprintf(stderr, "ERROR writing PIXEL in `diag_gradient'\n");
+    exit(EXIT_FAILURE);
+  }
+  return byte_count += PIXEL_S;
+}
+
+/***************************************************************************************************
+ * HORIZ_GRADIENT: -t 6                                                                            *
+ ***************************************************************************************************/
+int horiz_gradient(PIXEL_INFO pi, int byte_count) {
+  color p_red = RED_MIN;// + (color)(PIXEL_COLOR_RANGE * pi.y_percent);
+  color p_green = GREEN_MIN;// + (color)(PIXEL_COLOR_RANGE * pi.x_percent);
+  color p_blue = BLUE_MIN + (color)(PIXEL_COLOR_RANGE * pi.z_percent);
+  PIXEL p = (PIXEL){p_red, p_green, p_blue};
+  if ((fwrite(&p, PIXEL_S, 1, fp) != 1)) {
+    fprintf(stderr, "ERROR writing PIXEL in `horix_gradiant'\n");
     exit(EXIT_FAILURE);
   }
   return byte_count += PIXEL_S;
