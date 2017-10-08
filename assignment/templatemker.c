@@ -3,7 +3,7 @@
  * --------------
  *
  * OCTOBER 7, 2017
- * VERSION 0.2_3
+ * VERSION 0.2_4
  *
  ***************************************************************************************************/
 
@@ -28,7 +28,7 @@ typedef struct {
 } PIXEL_INFO;
 
 PIXEL_INFO pixel_info(int, int);
-void all_white(PIXEL_INFO);
+int all_white(PIXEL_INFO, int);
 
 /***************************************************************************************************
  * MAIN                                                                                            *
@@ -57,12 +57,28 @@ int main(int argc, char** argv) {
   } else {
     fprintf(stderr, "SUCCESS opening file %s for writing\n", template_name);
   }
-  
+
+  int count = 0;
   for (int h = 0; h < HEIGHT; h++) {
     for (int w = 0; w < WIDTH; w++) {
-      PIXEL_INFO info = pixel_info(w, h);
+      PIXEL_INFO p_info = pixel_info(w, h);
+      switch (template_num) {
+      case 1:
+        count = all_white(p_info, count);
+        break;
+      default:
+        ;
+      }
     }
   }
+
+  if (fclose(fp) != 0) {
+    fprintf(stderr, "ERROR closing file %s\n", template_name);
+    exit(EXIT_FAILURE);
+  } else {
+    fprintf(stderr, "SUCCESS closing file %s; wrote %d bytes\n", template_name, count);
+  }
+  exit(EXIT_SUCCESS);
 }
 
 /***************************************************************************************************
@@ -92,6 +108,10 @@ PIXEL_INFO pixel_info(int x, int y) {
     };
 }
 
-void all_white(PIXEL_INFO pi) {
-  
+int all_white(PIXEL_INFO pi, int count) {
+  if ((fwrite(&WHITE, PIXEL_S, 1, fp) != 1)) {
+    fprintf(stderr, "ERROR writing WHITE PIXEL in `all_white'\n");
+    exit(EXIT_FAILURE);
+  }
+  return count += PIXEL_S;
 }

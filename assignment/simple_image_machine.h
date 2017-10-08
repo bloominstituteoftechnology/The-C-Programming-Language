@@ -3,7 +3,7 @@
  * ----------------------
  * 
  * OCTOBER 6, 2017
- * VERSION 0.2_2
+ * VERSION 0.2_3
  *
  ***************************************************************************************************/
 
@@ -73,7 +73,7 @@ typedef struct {
 
 /* PPM DATA */
 #define PPM_TYPE "P6"
-#define MAXVAL 0xFF
+#define MAXVAL 0xFFFF
 
 /* USED WHEN OPENING FILES FOR READING AND WRITING */
 FILE* fp;
