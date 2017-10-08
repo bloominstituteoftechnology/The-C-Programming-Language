@@ -3,7 +3,7 @@
  * --------------
  *
  * OCTOBER 7, 2017
- * VERSION 0.2_4
+ * VERSION 0.2_5
  *
  ***************************************************************************************************/
 
@@ -28,7 +28,7 @@ typedef struct {
 } PIXEL_INFO;
 
 PIXEL_INFO pixel_info(int, int);
-int all_white(PIXEL_INFO, int);
+int all_one_color(PIXEL_INFO, PIXEL, int);
 
 /***************************************************************************************************
  * MAIN                                                                                            *
@@ -64,7 +64,7 @@ int main(int argc, char** argv) {
       PIXEL_INFO p_info = pixel_info(w, h);
       switch (template_num) {
       case 1:
-        count = all_white(p_info, count);
+        count = all_one_color(p_info, BLACK, count);
         break;
       default:
         ;
@@ -108,8 +108,8 @@ PIXEL_INFO pixel_info(int x, int y) {
     };
 }
 
-int all_white(PIXEL_INFO pi, int count) {
-  if ((fwrite(&WHITE, PIXEL_S, 1, fp) != 1)) {
+int all_one_color(PIXEL_INFO pi, PIXEL pixel_color, int count) {
+  if ((fwrite(&pixel_color, PIXEL_S, 1, fp) != 1)) {
     fprintf(stderr, "ERROR writing WHITE PIXEL in `all_white'\n");
     exit(EXIT_FAILURE);
   }
