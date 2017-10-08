@@ -3,7 +3,7 @@
  * --------------
  *
  * OCTOBER 7, 2017
- * VERSION 0.3_c
+ * VERSION 0.3_d
  *
  ***************************************************************************************************/
 
@@ -12,7 +12,7 @@
 
 #include "./simple_image_machine.h"
 
-#define VERSION 0.3_c
+#define VERSION 0.3_d
 #define DESCRIPTION "Program to make a template for 'simple_image_machine'.\n\
 Give a number (1, 2, 3, etc) for the template using the option -t <template-num>.\n\
 The default size is 1024 x 768, but you can enter an explicit size after the number.\n"
@@ -120,6 +120,9 @@ int main(int argc, char** argv) {
         byte_count = all_one_color(p_info, GRAY, byte_count);
         break;
       case 4:
+        byte_count = all_one_color(p_info, RED, byte_count);
+        break;
+      case 5:
         byte_count = gradient(p_info, byte_count);
       default:
         ;
@@ -200,11 +203,11 @@ int all_one_color(PIXEL_INFO pi, PIXEL pixel_color, int byte_count) {
 }
 
 /***************************************************************************************************
- * GRADIENT: -t 4                                                                                  *
+ * GRADIENT: -t 5                                                                                  *
  ***************************************************************************************************/
 int gradient(PIXEL_INFO pi, int byte_count) {
   /* showPixelInfo(pi); */
-  color p_red = RED_MAX * pi.line_percent;
+  color p_red = (color)(PIXEL_COLOR_RANGE * pi.line_percent) + RED_MIN;
   color p_green = p_red;
   color p_blue = p_red;
   PIXEL p = (PIXEL){p_red, p_green, p_blue};

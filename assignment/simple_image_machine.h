@@ -69,6 +69,10 @@ typedef struct {
 #define BLUE_MID 0x6d
 #define GRAY (PIXEL){RED_MID, GREEN_MID, BLUE_MID}
 
+#define RED (PIXEL){RED_MAX, GREEN_MIN, BLUE_MIN}
+
+#define PIXEL_COLOR_RANGE (RED_MAX - RED_MIN)
+
 #define EMPTY (PIXEL){0, 0, 0}
 
 /* PPM DATA */
