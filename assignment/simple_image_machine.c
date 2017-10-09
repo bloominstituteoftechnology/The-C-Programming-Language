@@ -72,7 +72,8 @@ int main(int argc, char** argv) {
     templateInfo(template);
     
     fillBuffer(templatebuff, EMPTY); /* erase the template buffer before using */
-    int read = loadTemplate(template.name, templatebuff); /* load a template file */
+    int pixels = loadTemplate(template.name, templatebuff); /* load a template file */
+    printf("Read %d pixels from %s\n", pixels, template.name);
     overlay(templatebuff); /* overlay the template data on the buffer file */
 
   }
@@ -97,12 +98,13 @@ void fillBuffer(PIXEL buff[HEIGHT][WIDTH], PIXEL fill) {
 }
 
 int loadTemplate(char* filename, PIXEL buff[HEIGHT][WIDTH]) {
+  int template_size = 0;
+  
   if ((fp = fopen(filename, READ)) != NULL) {
 
     int width = 0;
     int height = 0;
     char newl = ' ';
-    int template_size = 0;
     
     if ((fscanf(fp, "%d %d%c", &width, &height, &newl)) != 3) {
       fprintf(stderr, "ERROR reading width height in template file\n");
@@ -114,12 +116,13 @@ int loadTemplate(char* filename, PIXEL buff[HEIGHT][WIDTH]) {
 
     int read = fread(buff, PIXEL_S, BUFSIZE, fp);
     fclose(fp);
+    template_size = read;
 
   } else {
     fprintf(stderr, "can't open file %s\n", filename);
     exit(1);
   }
-
+  return template_size;
 }
 
 void overlay() {
