@@ -28,8 +28,8 @@ struct template1 getTemplate1() {
   };
 
   // This is the code for mallocing a 2d array
-  int m = 40;
-  int n = 40;
+  int m = size;
+  int n = size;
   int** twoDArray;
   twoDArray = malloc(m * sizeof(void*));
   for(int i = 0 ; i < m ; ++i ) {
