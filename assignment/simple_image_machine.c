@@ -3,7 +3,7 @@
  * ----------------------
  *
  * OCTOBER 5, 2017
- * VERSION 0.3_b
+ * VERSION 0.3_c
  *
  * DIRECTIONS:
  * ===========
@@ -26,7 +26,7 @@
 
 #include "./simple_image_machine.h"
 
-#define VERSION 0.3_b
+#define VERSION 0.3_c
 
 #define USAGE "USAGE: simple_image_machine -o <outputfile>.ppm template1 <width> <height> template2 <width> <height> ...\n"
 
@@ -120,8 +120,8 @@ PIXEL_T loadTemplate(char* filename, TEMPLATE* template) {
     pixelsRead = fread(template->buff, PIXEL_S, templateBuffSize, fp);
     fclose(fp);
 
-    printf("read %d pixels from %s\n", pixelsRead, template->name);
-    displayBuffer(template);
+    /* printf("read %d pixels from %s\n", pixelsRead, template->name);c- */
+    /* displayBuffer(template); */
     
   } else {
     fprintf(stderr, "can't open file %s\n", filename);
@@ -163,7 +163,10 @@ void writePPM(char* outputfile) {
       exit(1);
     }
     int written;
-    if ((written = fwrite(imagebuffer, PIXEL_S, BUFSIZE, fp)) != BUFSIZE) {
+    if ((written = fwrite(imagebuffer, PIXEL_S, BUFSIZE, fp)) != BUFSIZE) { /* I THINK THIS IS SOURCE OF ERROR
+                                                                               BUFSIZE SHOULD BE 3X AS BIG
+                                                                               TO ACCOUNT FOR PIXEL_S BEING 
+                                                                               3 BYTES */
       fprintf(stderr, "ERROR writing image buffer; wrote [%d] bytes out of [%d] possible\n", written, BUFSIZE);
       exit(1);
     }

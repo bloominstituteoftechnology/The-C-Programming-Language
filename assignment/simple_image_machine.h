@@ -59,6 +59,7 @@ typedef struct {
  ***************************************************************************************************/
 
 /* IMAGE SIZE 1024 x 768 PIXELS */
+/* SOURCE OF ERROR? BUFSIZE SHOULD BE 3X AS BIG BECAUSE OF PIXEL_S? */
 #define WIDTH 1024
 #define HEIGHT 768
 #define BUFSIZE WIDTH * HEIGHT
