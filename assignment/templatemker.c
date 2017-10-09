@@ -3,7 +3,7 @@
  * --------------
  *
  * OCTOBER 7, 2017
- * VERSION 0.3_f
+ * VERSION 0.3_g
  *
  ***************************************************************************************************/
 
@@ -12,7 +12,7 @@
 
 #include "./simple_image_machine.h"
 
-#define VERSION 0.3_f
+#define VERSION 0.3_g
 #define DESCRIPTION "Program to make a template for 'simple_image_machine'.\n\
 Give a number (1, 2, 3, etc) for the template using the option -t <template-num>.\n\
 The default size is 1024 x 768, but you can enter an explicit size after the number.\n"
@@ -34,17 +34,24 @@ typedef struct {
   int line;
   float line_percent;
   float diag_gradient;
+  int mid_x;
+  int mid_y;
+  int lr; // left-right
+  int ud; // up-down
+  int quadrant; // 0,1,2,3
 } PIXEL_INFO;
 
 PIXEL_INFO pixel_info(int, int, int , int);
 #define DEFAULT_WIDTH  WIDTH
 #define DEFAULT_HEIGHT HEIGHT
 
+void printPixel(PIXEL);
 void showPixel(PIXEL);
 void showPixelInfo(PIXEL_INFO);
-int all_one_color(PIXEL_INFO, PIXEL, int);
-int diag_gradient(PIXEL_INFO, int);
-int horiz_gradient(PIXEL_INFO, int);
+int  all_one_color(PIXEL_INFO, PIXEL, int);
+int  diag_gradient(PIXEL_INFO, int);
+int  horiz_gradient(PIXEL_INFO, int);
+int quadrants(PIXEL_INFO, int);
 
 /***************************************************************************************************
  * MAIN                                                                                            *
@@ -129,6 +136,9 @@ int main(int argc, char** argv) {
       case 6:
         byte_count = horiz_gradient(p_info, byte_count);
         break;
+      case 7:
+        byte_count = quadrants(p_info, byte_count);
+        break;
       default:
         ;
       }
@@ -160,6 +170,11 @@ PIXEL_INFO pixel_info(int x, int y, int width, int height) {
   int line = 10 + y_intersect;
   float line_percent = (float)line / (height * 2);
   float diag_gradient = (float)line / (width + height);
+  int mid_x = round(width / 2);
+  int mid_y = round(height / 2);
+  int lr = round(x / mid_x);
+  int ud = round(y / mid_y);
+  int quadrant = lr == 0 ? ud == 0 ? 0 : 3 : ud == 0 ? 1 : 4;
 
   return (PIXEL_INFO){
       width,
@@ -175,7 +190,19 @@ PIXEL_INFO pixel_info(int x, int y, int width, int height) {
       line,
       line_percent,
       diag_gradient,
+      mid_x,
+      mid_y,
+      lr,
+      ud,
+      quadrant,
     };
+}
+
+void printPixel(PIXEL p) {
+  if ((fwrite(&p, PIXEL_S, 1, fp) != 1)) {
+    fprintf(stderr, "ERROR writing PIXEL in\n");
+    exit(EXIT_FAILURE);
+  }
 }
 
 /***************************************************************************************************
@@ -193,6 +220,8 @@ void showPixelInfo(PIXEL_INFO pi) {
   printf("x-i: %d y-i: %d\n", pi.x_intersect, pi.y_intersect);
   printf("x-percent: %2.2f%%  y-percent: %2.2f%%  line-percent: %2.2f%%\n",
          pi.x_percent * 100, pi.y_percent * 100, pi.line_percent * 100);
+  printf("mid-x: %d  mid-y: %d  lr: %d  up: %d  quadrant: %d\n",
+         pi.mid_x, pi.mid_y, pi.lr, pi.ud, pi.quadrant);
 }
 
 /***************************************************************************************************
@@ -200,10 +229,7 @@ void showPixelInfo(PIXEL_INFO pi) {
  ***************************************************************************************************/
 int all_one_color(PIXEL_INFO pi, PIXEL pixel_color, int byte_count) {
   /* showPixel(pixel_color); */
-  if ((fwrite(&pixel_color, PIXEL_S, 1, fp) != 1)) {
-    fprintf(stderr, "ERROR writing PIXEL in `all_one_color'\n");
-    exit(EXIT_FAILURE);
-  }
+  printPixel(pixel_color);
   return byte_count += PIXEL_S;
 }
 
@@ -218,10 +244,7 @@ int diag_gradient(PIXEL_INFO pi, int byte_count) {
   PIXEL p = (PIXEL){p_red, p_green, p_blue};
   /* showPixel(p); */
   /* printf("\n"); */
-  if ((fwrite(&p, PIXEL_S, 1, fp) != 1)) {
-    fprintf(stderr, "ERROR writing PIXEL in `diag_gradient'\n");
-    exit(EXIT_FAILURE);
-  }
+  printPixel(p);
   return byte_count += PIXEL_S;
 }
 
@@ -233,9 +256,32 @@ int horiz_gradient(PIXEL_INFO pi, int byte_count) {
   color p_green = GREEN_MIN;// + (color)(PIXEL_COLOR_RANGE * pi.x_percent);
   color p_blue = BLUE_MIN + (color)(PIXEL_COLOR_RANGE * pi.z_percent);
   PIXEL p = (PIXEL){p_red, p_green, p_blue};
-  if ((fwrite(&p, PIXEL_S, 1, fp) != 1)) {
-    fprintf(stderr, "ERROR writing PIXEL in `horix_gradiant'\n");
-    exit(EXIT_FAILURE);
+  showPixelInfo(pi);
+  showPixel(p);
+  printf("\n");
+  printPixel(p);
+  return byte_count += PIXEL_S;
+}
+
+/***************************************************************************************************
+ * QUADRANTS                                                                                       *
+ ***************************************************************************************************/
+int quadrants(PIXEL_INFO pi, int byte_count) {
+  PIXEL p;
+  switch (pi.quadrant) {
+  case 1:
+    p = RED;
+    break;
+  case2:
+    p = GREEN;
+    break;
+  case 3:
+    p = BLUE;
+    break;
+  case 4:
+    p = BLACK;
+    break;
   }
+  printPixel(p);
   return byte_count += PIXEL_S;
 }
