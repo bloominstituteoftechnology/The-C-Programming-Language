@@ -3,7 +3,7 @@
  * ----------------------
  * 
  * OCTOBER 7, 2017
- * VERSION 0.3_c
+ * VERSION 0.3_d
  *
  ***************************************************************************************************/
 
@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <math.h>
+#include <ctype.h>
 
 int argc;
 char** argv;

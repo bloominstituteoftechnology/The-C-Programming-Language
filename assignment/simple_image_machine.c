@@ -3,7 +3,7 @@
  * ----------------------
  *
  * OCTOBER 5, 2017
- * VERSION 0.2_a
+ * VERSION 0.2_b
  *
  * DIRECTIONS:
  * ===========
@@ -26,13 +26,15 @@
 
 #include "./simple_image_machine.h"
 
-#define VERSION 0.2_a
+#define VERSION 0.2_b
 
 #define USAGE "USAGE: simple_image_machine -o <outputfile>.ppm template1 <width> <height> template2 <width> <height> ...\n"
 
 PIXEL imagebuffer[HEIGHT][WIDTH];
 PIXEL templatebuff[HEIGHT][WIDTH];
 char* outputfile;
+
+void templateInfo(TEMPLATE);
 
 /* *************************************************************************
  * MAIN
@@ -61,11 +63,13 @@ int main(int argc, char** argv) {
     template.name = argv[f++];
     template.start_x = atoi(argv[f++]);
     template.start_y = atoi(argv[f++]);
-    if (template.start_x == 0 || template.start_y == 0) { /* error if either number is zero */
-      fprintf(stderr, "template starting point is incorrect: start-x: %d start-y: %d\n", template.start_x, template.start_y);
+    if (isnan(template.start_x) || isnan(template.start_y)) {
+      fprintf(stderr, "template starting point is incorrect: start-x: %d start-y: %d\n",
+              template.start_x, template.start_y);
       fprintf(stderr, USAGE);
       exit(1);
     }
+    templateInfo(template);
     
     fillBuffer(templatebuff, EMPTY); /* erase the template buffer before using */
     int read = loadTemplate(template.name, templatebuff); /* load a template file */
@@ -80,6 +84,10 @@ int main(int argc, char** argv) {
  * END MAIN
  ***************************************************************************/
 
+void templateInfo(TEMPLATE t) {
+  fprintf(stderr, "template name: %s stamp point: (%d, %d)\n", t.name, t.start_x, t.start_y);
+}
+
 void fillBuffer(PIXEL buff[HEIGHT][WIDTH], PIXEL fill) {
   for (int i = 0; i < HEIGHT; i++) {
     for (int j = 0; j < WIDTH; j++) {
@@ -91,31 +99,27 @@ void fillBuffer(PIXEL buff[HEIGHT][WIDTH], PIXEL fill) {
 int loadTemplate(char* filename, PIXEL buff[HEIGHT][WIDTH]) {
   if ((fp = fopen(filename, READ)) != NULL) {
 
-    int width, height, template_size;
-    char* newl;
+    int width = 0;
+    int height = 0;
+    char newl = ' ';
+    int template_size = 0;
     
-    if ((fscanf(fp, "%d %d%s", &width, &height, newl)) != 3) {
-      fprintf(stderr, "ERROR reading widthxheight in template file\n");
+    if ((fscanf(fp, "%d %d%c", &width, &height, &newl)) != 3) {
+      fprintf(stderr, "ERROR reading width height in template file\n");
       exit(EXIT_FAILURE);
     }
     template_size = width * height;
 
+    fprintf(stderr, "filename %s size (%d x %d = %d)\n", filename, width, height, template_size);
+
     int read = fread(buff, PIXEL_S, BUFSIZE, fp);
     fclose(fp);
-
-    if (read == template_size)
-      return read;
-
-    else {
-      fprintf(stderr, "error reading the correct number of pixels from %s: read %d instead of %d\n",
-              filename, read, template_size);
-      exit(1);
-    }
 
   } else {
     fprintf(stderr, "can't open file %s\n", filename);
     exit(1);
   }
+
 }
 
 void overlay() {

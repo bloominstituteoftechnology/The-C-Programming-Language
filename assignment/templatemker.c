@@ -3,16 +3,13 @@
  * --------------
  *
  * OCTOBER 7, 2017
- * VERSION 0.3_g
+ * VERSION 0.3_h
  *
  ***************************************************************************************************/
 
-#include <math.h>
-#include <ctype.h>
-
 #include "./simple_image_machine.h"
 
-#define VERSION 0.3_g
+#define VERSION 0.3_h
 #define DESCRIPTION "Program to make a template for 'simple_image_machine'.\n\
 Give a number (1, 2, 3, etc) for the template using the option -t <template-num>.\n\
 The default size is 1024 x 768, but you can enter an explicit size after the number.\n"
