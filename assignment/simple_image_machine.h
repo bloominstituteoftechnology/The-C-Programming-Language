@@ -3,7 +3,7 @@
  * ----------------------
  * 
  * OCTOBER 7, 2017
- * VERSION 0.3_b
+ * VERSION 0.3_c
  *
  ***************************************************************************************************/
 
@@ -41,8 +41,8 @@ typedef struct {
 /* TEMPLATE INFORMATION */
 typedef struct {
   char* name;
-  int   width;
-  int   height;
+  int   start_x;
+  int   start_y;
 } TEMPLATE;
 
 /* IMAGE SIZE 1024 x 768 PIXELS */

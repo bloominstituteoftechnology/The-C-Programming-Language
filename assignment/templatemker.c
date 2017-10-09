@@ -108,6 +108,12 @@ int main(int argc, char** argv) {
       exit(EXIT_FAILURE);
     }
     fprintf(stderr, "template size: %d x %d\n", width, height);
+
+    /* place `width' `height' dimensions at the start of the template file */
+    if (fprintf(fp, "%d %d\n", width, height) < 0) {
+      fprintf(stderr, "ERROR printing dimensions into template file\n");
+      exit(EXIT_FAILURE);
+    }
   }
 
   /***********************************************************************

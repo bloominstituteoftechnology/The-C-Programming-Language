@@ -3,7 +3,7 @@
  * ----------------------
  *
  * OCTOBER 5, 2017
- * VERSION 0.2
+ * VERSION 0.2_a
  *
  * DIRECTIONS:
  * ===========
@@ -25,6 +25,8 @@
  ***************************************************************************************************/
 
 #include "./simple_image_machine.h"
+
+#define VERSION 0.2_a
 
 #define USAGE "USAGE: simple_image_machine -o <outputfile>.ppm template1 <width> <height> template2 <width> <height> ...\n"
 
@@ -57,10 +59,10 @@ int main(int argc, char** argv) {
   for (int f = 3; f < argc; f++) {
     TEMPLATE template;
     template.name = argv[f++];
-    template.width = atoi(argv[f++]);
-    template.height = atoi(argv[f++]);
-    if (template.width == 0 || template.height == 0) { /* error if either number is zero */
-      fprintf(stderr, "template sizes are incorrect: width %d height %d\n", template.width, template.height);
+    template.start_x = atoi(argv[f++]);
+    template.start_y = atoi(argv[f++]);
+    if (template.start_x == 0 || template.start_y == 0) { /* error if either number is zero */
+      fprintf(stderr, "template starting point is incorrect: start-x: %d start-y: %d\n", template.start_x, template.start_y);
       fprintf(stderr, USAGE);
       exit(1);
     }
@@ -88,14 +90,25 @@ void fillBuffer(PIXEL buff[HEIGHT][WIDTH], PIXEL fill) {
 
 int loadTemplate(char* filename, PIXEL buff[HEIGHT][WIDTH]) {
   if ((fp = fopen(filename, READ)) != NULL) {
+
+    int width, height, template_size;
+    char* newl;
+    
+    if ((fscanf(fp, "%d %d%s", &width, &height, newl)) != 3) {
+      fprintf(stderr, "ERROR reading widthxheight in template file\n");
+      exit(EXIT_FAILURE);
+    }
+    template_size = width * height;
+
     int read = fread(buff, PIXEL_S, BUFSIZE, fp);
     fclose(fp);
 
-    if (read == BUFSIZE)
+    if (read == template_size)
       return read;
 
     else {
-      fprintf(stderr, "error reading the correct number of pixels from %s: read %d instead of %d\n", filename, read, BUFSIZE);
+      fprintf(stderr, "error reading the correct number of pixels from %s: read %d instead of %d\n",
+              filename, read, template_size);
       exit(1);
     }
 
