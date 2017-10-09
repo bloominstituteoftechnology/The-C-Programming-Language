@@ -3,7 +3,7 @@
  * ----------------------
  * 
  * OCTOBER 7, 2017
- * VERSION 0.3_f
+ * VERSION 0.3_g
  *
  ***************************************************************************************************/
 
@@ -47,7 +47,7 @@ typedef struct {
 /* TEMPLATE INFORMATION */
 typedef struct {
   char* name;
-  PIXEL** buff;
+  PIXEL* buff;
   int   start_x;
   int   start_y;
   int   width;
@@ -65,6 +65,7 @@ typedef struct {
 
 /* PIXEL INFORMATION */
 #define PIXEL_S sizeof(PIXEL)
+typedef unsigned int PIXEL_T;
 
 /* PIXEL COLOR VALUES */
 #define RED_MAX   0xEB /* dec 235 */
@@ -107,13 +108,18 @@ FILE* fp;
  * templateInfo
  * prints template information
  *****************************/
-void templateInfo(TEMPLATE);
+void templateInfo(TEMPLATE*);
 
 /***********
  * makeColor
  * given three colors red, green, blue, returns a new PIXEL
  ************/
 PIXEL makeColor(color, color, color);
+
+/***********
+ * showColor
+ ***********/
+void showColors(PIXEL*);
 
 /***************
  * getoutputfile
@@ -131,13 +137,13 @@ void fillBuffer(PIXEL[HEIGHT][WIDTH], PIXEL);
  * loadTemplate
  * loads a template file named on the command-line into a PIXEL template buffer of unknown size
  **************/
-int loadTemplate(char*, TEMPLATE);
+PIXEL_T loadTemplate(char*, TEMPLATE*);
 
 /*********
  * overlay
  * overlays a template buffer onto an image buffer
  *********/
-void overlay(TEMPLATE);
+void overlay(TEMPLATE*);
 
 /**********
  * writePPM
@@ -148,9 +154,4 @@ void writePPM(char*);
 /***************
  * displayBuffer
  ***************/
-void displayBuffer(TEMPLATE);
-
-/*************
- * displayLine
- *************/
-void displayLine(int);
+void displayBuffer(TEMPLATE*);
