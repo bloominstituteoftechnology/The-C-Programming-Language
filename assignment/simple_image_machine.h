@@ -3,7 +3,7 @@
  * ----------------------
  * 
  * OCTOBER 7, 2017
- * VERSION 0.3_d
+ * VERSION 0.3_f
  *
  ***************************************************************************************************/
 
@@ -16,6 +16,10 @@
 
 int argc;
 char** argv;
+
+/***************************************************************************************************
+ * TYPEDEFS                                                                                        *
+ ***************************************************************************************************/
 
 /* "Portable Pixel Map" ppm format
  * ---> http://netpbm.sourceforge.net/doc/ppm.html
@@ -43,9 +47,16 @@ typedef struct {
 /* TEMPLATE INFORMATION */
 typedef struct {
   char* name;
+  PIXEL** buff;
   int   start_x;
   int   start_y;
+  int   width;
+  int   height;
 } TEMPLATE;
+
+/***************************************************************************************************
+ * DEFINES                                                                                         *
+ ***************************************************************************************************/
 
 /* IMAGE SIZE 1024 x 768 PIXELS */
 #define WIDTH 1024
@@ -88,24 +99,58 @@ FILE* fp;
 #define READ  "r"
 #define WRITE "w"
 
-/* given three colors red, green, blue, returns a new PIXEL */
+/***************************************************************************************************
+ * FUNCTION PROTOTYPES                                                                             *
+ ***************************************************************************************************/
+
+/*****************************
+ * templateInfo
+ * prints template information
+ *****************************/
+void templateInfo(TEMPLATE);
+
+/***********
+ * makeColor
+ * given three colors red, green, blue, returns a new PIXEL
+ ************/
 PIXEL makeColor(color, color, color);
 
-/* returns the name of the outputfile '-o outputfile' */
+/***************
+ * getoutputfile
+ * returns the name of the outputfile '-o outputfile'
+ ***************/
 char* getoutputfile();
 
-/* fills a buffer with a pixel */
+/************
+ * fillBuffer
+ * fills a buffer with a pixel
+ ************/
 void fillBuffer(PIXEL[HEIGHT][WIDTH], PIXEL);
 
-/* loads a template file given from the command-line */
-int loadTemplate(char*, PIXEL[HEIGHT][WIDTH]);
+/**************
+ * loadTemplate
+ * loads a template file named on the command-line into a PIXEL template buffer of unknown size
+ **************/
+int loadTemplate(char*, TEMPLATE);
 
-/* overlays a template buffer onto an image buffer */
-void overlay();
+/*********
+ * overlay
+ * overlays a template buffer onto an image buffer
+ *********/
+void overlay(TEMPLATE);
 
-/* writes out the image buffer into the outputfile */
+/**********
+ * writePPM
+ * writes the image buffer to the outputfile
+ **********/
 void writePPM(char*);
 
+/***************
+ * displayBuffer
+ ***************/
+void displayBuffer(TEMPLATE);
 
-void displayBuffer(void);
+/*************
+ * displayLine
+ *************/
 void displayLine(int);

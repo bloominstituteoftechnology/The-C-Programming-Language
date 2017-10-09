@@ -3,7 +3,7 @@
  * ----------------------
  *
  * OCTOBER 5, 2017
- * VERSION 0.2_b
+ * VERSION 0.3_a
  *
  * DIRECTIONS:
  * ===========
@@ -26,15 +26,12 @@
 
 #include "./simple_image_machine.h"
 
-#define VERSION 0.2_b
+#define VERSION 0.3_a
 
 #define USAGE "USAGE: simple_image_machine -o <outputfile>.ppm template1 <width> <height> template2 <width> <height> ...\n"
 
 PIXEL imagebuffer[HEIGHT][WIDTH];
-PIXEL templatebuff[HEIGHT][WIDTH];
 char* outputfile;
-
-void templateInfo(TEMPLATE);
 
 /* *************************************************************************
  * MAIN
@@ -58,7 +55,7 @@ int main(int argc, char** argv) {
   /* displayBuffer(); */
 
   /* Loop over template files */
-  for (int f = 3; f < argc; f++) {
+  for (int f = 3; f < argc; f++) { /* template x y (point at which to overlay template file in image buffer */
     TEMPLATE template;
     template.name = argv[f++];
     template.start_x = atoi(argv[f++]);
@@ -69,12 +66,11 @@ int main(int argc, char** argv) {
       fprintf(stderr, USAGE);
       exit(1);
     }
-    templateInfo(template);
     
-    fillBuffer(templatebuff, EMPTY); /* erase the template buffer before using */
-    int pixels = loadTemplate(template.name, templatebuff); /* load a template file */
-    printf("Read %d pixels from %s\n", pixels, template.name);
-    overlay(templatebuff); /* overlay the template data on the buffer file */
+    int templateBuffSize = loadTemplate(template.name, template); /* load a template file */
+    printf("Read %d pixels from %s\n", templateBuffSize, template.name);
+
+    overlay(template); /* overlay the template data on the buffer file */
 
   }
   writePPM(outputfile); /* write the imagebuffer to an output file */
@@ -86,7 +82,8 @@ int main(int argc, char** argv) {
  ***************************************************************************/
 
 void templateInfo(TEMPLATE t) {
-  fprintf(stderr, "template name: %s stamp point: (%d, %d)\n", t.name, t.start_x, t.start_y);
+  fprintf(stderr, "template name: %s size: (%d x %d) stamp point: (%d, %d)\n",
+          t.name, t.width, t.height, t.start_x, t.start_y);
 }
 
 void fillBuffer(PIXEL buff[HEIGHT][WIDTH], PIXEL fill) {
@@ -97,9 +94,7 @@ void fillBuffer(PIXEL buff[HEIGHT][WIDTH], PIXEL fill) {
   }
 }
 
-int loadTemplate(char* filename, PIXEL buff[HEIGHT][WIDTH]) {
-  int template_size = 0;
-  
+int loadTemplate(char* filename, TEMPLATE template) {
   if ((fp = fopen(filename, READ)) != NULL) {
 
     int width = 0;
@@ -110,25 +105,29 @@ int loadTemplate(char* filename, PIXEL buff[HEIGHT][WIDTH]) {
       fprintf(stderr, "ERROR reading width height in template file\n");
       exit(EXIT_FAILURE);
     }
-    template_size = width * height;
+    template.width = width;
+    template.height = height;
+    int template_size = width * height;
+    templateInfo(template);
 
-    fprintf(stderr, "filename %s size (%d x %d = %d)\n", filename, width, height, template_size);
+    int templateBuffSize = PIXEL_S * width * height;
+    template.buff = malloc(templateBuffSize);
 
-    int read = fread(buff, PIXEL_S, BUFSIZE, fp);
+    int read = fread(template.buff, PIXEL_S, templateBuffSize, fp);
     fclose(fp);
-    template_size = read;
-
+    
   } else {
     fprintf(stderr, "can't open file %s\n", filename);
     exit(1);
   }
-  return template_size;
+  return (int)read;
 }
 
-void overlay() {
-  for (int row = 0; row < HEIGHT; row++) {
-    for (int column = 0; column < WIDTH; column++) {
-      PIXEL p = templatebuff[row][column];
+void overlay(TEMPLATE template) {
+  PIXEL templateBuff[template.height][template.width];
+  for (int row = 0; row < template.height; row++) {
+    for (int column = 0; column < template.width; column++) {
+      PIXEL p = template.buff[row][column];
       if (p.red != 0 || p.green != 0 || p.blue != 0)
         imagebuffer[row][column] = p;
     }
@@ -167,10 +166,15 @@ PIXEL makeColor(color red, color green, color blue) {
   return (PIXEL){red, green, blue};
 }
 
-void displayBuffer() {
-  for (int row = 0; row < HEIGHT; row++) {
-    displayLine(row);
+void displayBuffer(TEMPLATE template) {
+  for (int row = 0; row < template.height; row++) {
+    printf("[%d] ", row);
+    for (int column = 0; column < template.width; column++) {
+      PIXEL pixel = template.buff[row * PIXEL_S * template.width][column * PIXEL_S];
+      printf("[%d](r:%d g:%d b:%d) ", column, pixel.red, pixel.green, pixel.blue);
+    }
     getchar();
+    putchar('\n');
   }
 }
 
