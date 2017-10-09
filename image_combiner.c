@@ -23,8 +23,6 @@ int main() {
 
   // for rows 40 thru 50 by colums 100 through 110 write rgb values 0, 0, 0 read in another PPM files
 
-
-
   fclose(imageFile);
 
   return 0;
