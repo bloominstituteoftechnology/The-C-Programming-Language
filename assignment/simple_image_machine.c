@@ -3,7 +3,7 @@
  * ----------------------
  *
  * OCTOBER 10, 2017
- * VERSION 0.3_d
+ * VERSION 0.3_e
  *
  * DIRECTIONS:
  * ===========
@@ -26,43 +26,23 @@
 
 #include "./simple_image_machine.h"
 
-#define VERSION 0.3_d
+#define VERSION 0.3_e
 
 #define USAGE "USAGE: simple_image_machine -o <outputfile>.ppm template1 <x1> <y1> template2 <x2> <y2> ...\n"
 
 PIXEL imagebuffer[HEIGHT][WIDTH];
-char* outputfile;
 
 /* *************************************************************************
  * MAIN
  * *************************************************************************/
 int main(int argc, char** argv) {
 
-  /* FIRST, option processing */
-  int ch;
-  while ((ch = getopt(argc, argv, "ho:")) != -1) { /* -o outputfile.ppm
-                                                      -h help */
-    if (ch == 'o')
-      break;
-    if (ch == 'h') {
-      fprintf(stderr, USAGE);
-      fprintf(stderr, "The simple_image_machine stamps template images onto a main image and produces a PPM (type P6) image file.\n  \
-The templates are placed in the image at the points given after the template names.\n  The templates can be larger than or \
-extend outside the boundaries of the image, but they will be truncated.\n  The template sizes are given in ascii at the \
-beginning of the template file as two numbers and a newline: `xxx yyy \\n'.\n");
+  /* FIRST, option processing: -o outputfile | -h */
+  char* outputfile = outputFilename(argc, argv);
 
-      exit(EXIT_SUCCESS);
-    }
-  }
-  if (ch != 'o') {
-    fprintf(stderr, "getting option name\n");
-    fprintf(stderr, USAGE);
-    exit(1);
-  }
-  outputfile = optarg;
+  /* SECOND, create and initialize an array that will contain r,g,b color values */
+  fillBuffer(imagebuffer, WHITE);
 
-  fillBuffer(imagebuffer, WHITE);    /* 1. Create an array of r,g,b values that is 1024x768
-                                        fill each pixel with WHITE *\/ */
   /* displayBuffer(); */
 
   /* Loop over template files */
@@ -91,6 +71,34 @@ beginning of the template file as two numbers and a newline: `xxx yyy \\n'.\n");
 /***************************************************************************
  * END MAIN
  ***************************************************************************/
+
+/***************************************************************************
+ * outputFilename                                                          *
+ ***************************************************************************/
+char* outputFilename(int argc, char* argv[]) {
+  int ch;
+  while ((ch = getopt(argc, argv, "ho:")) != -1) { /* -o outputfile.ppm
+                                                      -h help */
+    if (ch == 'o')
+      break;
+    if (ch == 'h') {
+      fprintf(stderr, USAGE);
+      fprintf(stderr, "The simple_image_machine stamps template images onto a main image and produces a PPM (type P6) image file.\n  \
+The templates are placed in the image at the points given after the template names.\n  The templates can be larger than or \
+extend outside the boundaries of the image, but they will be truncated.\n  The template sizes are given in ascii at the \
+beginning of the template file as two numbers and a newline: `xxx yyy \\n'.\n");
+
+      exit(EXIT_SUCCESS);
+    }
+  }
+  if (ch != 'o') {
+    fprintf(stderr, "getting option name\n");
+    fprintf(stderr, USAGE);
+    exit(1);
+  }
+  /* getopt successfully optained the output file name; contained in optarg */
+  return optarg;
+}
 
 void templateInfo(TEMPLATE* t) {
   fprintf(stderr, "template name: %s size: (%d x %d) stamp point: (%d, %d)\n",
