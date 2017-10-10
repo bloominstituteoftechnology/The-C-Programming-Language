@@ -2,8 +2,8 @@
  * simple_image_machine.c
  * ----------------------
  *
- * OCTOBER 5, 2017
- * VERSION 0.3_c
+ * OCTOBER 10, 2017
+ * VERSION 0.3_d
  *
  * DIRECTIONS:
  * ===========
@@ -20,15 +20,15 @@
  * USAGE: 
  * ======
  * 
- * simple_image_machine duck 40,100 circle 90,500 turkey 600,600 square 200,200 -o outputfile.ppm
+ * simple_image_machine -o outputfile.ppm duck 40,100 circle 90,500 turkey 600,600 square 200,200
  *
  ***************************************************************************************************/
 
 #include "./simple_image_machine.h"
 
-#define VERSION 0.3_c
+#define VERSION 0.3_d
 
-#define USAGE "USAGE: simple_image_machine -o <outputfile>.ppm template1 <width> <height> template2 <width> <height> ...\n"
+#define USAGE "USAGE: simple_image_machine -o <outputfile>.ppm template1 <x1> <y1> template2 <x2> <y2> ...\n"
 
 PIXEL imagebuffer[HEIGHT][WIDTH];
 char* outputfile;
@@ -38,10 +38,21 @@ char* outputfile;
  * *************************************************************************/
 int main(int argc, char** argv) {
 
+  /* FIRST, option processing */
   int ch;
-  while ((ch = getopt(argc, argv, "o:")) != -1) { /* -o outputfile.ppm */
+  while ((ch = getopt(argc, argv, "ho:")) != -1) { /* -o outputfile.ppm
+                                                      -h help */
     if (ch == 'o')
       break;
+    if (ch == 'h') {
+      fprintf(stderr, USAGE);
+      fprintf(stderr, "The simple_image_machine stamps template images onto a main image and produces a PPM (type P6) image file.\n  \
+The templates are placed in the image at the points given after the template names.\n  The templates can be larger than or \
+extend outside the boundaries of the image, but they will be truncated.\n  The template sizes are given in ascii at the \
+beginning of the template file as two numbers and a newline: `xxx yyy \\n'.\n");
+
+      exit(EXIT_SUCCESS);
+    }
   }
   if (ch != 'o') {
     fprintf(stderr, "getting option name\n");
