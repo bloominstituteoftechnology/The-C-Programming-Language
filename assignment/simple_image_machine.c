@@ -3,7 +3,7 @@
  * ----------------------
  *
  * OCTOBER 10, 2017
- * VERSION 0.4_a
+ * VERSION 0.4_b
  *
  * DIRECTIONS:
  * ===========
@@ -26,7 +26,7 @@
 
 #include "./simple_image_machine.h"
 
-#define VERSION 0.4_a
+#define VERSION 0.4_b
 #define USAGE "USAGE: simple_image_machine -o <outputfile>.ppm template1 <x1> <y1> template2 <x2> <y2> ...\n"
 
 /* *************************************************************************
@@ -39,14 +39,16 @@ int main(int argc, char** argv) {
 
   /* SECOND, create and initialize an array that will contain r,g,b color values */
   PIXEL** imagebuffer;
-  imagebuffer = malloc(PIXEL_S * HEIGHT);
+  imagebuffer = malloc(sizeof(void*) * HEIGHT);
   for (int row = 0; row < HEIGHT; row++) {
-    imagebuffer[row] = malloc(PIXEL_S * WIDTH);
+    imagebuffer[row] = calloc(WIDTH, PIXEL_S);
   }
 
   fillBuffer(imagebuffer, WHITE);
 
-  /* displayBuffer(); */
+  /* displayImageBuffer(imagebuffer); */
+  /* free(imagebuffer); */
+  exit(0);
 
   /* Loop over template files */
   for (int f = 3; f < argc; f++) { /* template x y (point at which to overlay template file in image buffer */
@@ -133,9 +135,9 @@ void templateInfo(TEMPLATE* t) {
  * returns:    void                                                        *
  ***************************************************************************/
 void fillBuffer(PIXEL** buff, PIXEL fill) {
-  for (int i = 0; i < HEIGHT; i++) {
-    for (int j = 0; j < WIDTH; j++) {
-      buff[i][j] = fill;
+  for (int row = 0; row < HEIGHT; row++) {
+    for (int col = 0; col < WIDTH; col++) {
+      buff[row][col] = fill;
     }
   }
 }
@@ -292,4 +294,23 @@ void displayBuffer(TEMPLATE* template) {
       }
       putchar('\n');
     }
+}
+
+/***************************************************************************
+ * displayImageBuffer                                                      *
+ * ------------------                                                      *
+ * Displays all of the pixels in the image buffer for debugging            *
+ *                                                                         *
+ * parameters: PIXEL** imagebuffer                                         *
+ * returns:    void                                                        *
+ ***************************************************************************/
+void displayImageBuffer(PIXEL** imagebuffer) {
+  for (int row = 0; row < HEIGHT; row++) {
+    /* printf("[%2d]\n", row); */
+    for (int col = 0; col < WIDTH; col++) {
+      PIXEL p = imagebuffer[row][col];
+      showColors(&p);
+    }
+    putchar('\n');
+  }
 }

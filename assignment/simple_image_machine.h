@@ -3,7 +3,7 @@
  * ----------------------
  * 
  * OCTOBER 10, 2017
- * VERSION 0.4_a
+ * VERSION 0.4_b
  *
  ***************************************************************************************************/
 
@@ -60,8 +60,8 @@ typedef struct {
 
 /* IMAGE SIZE 1024 x 768 PIXELS */
 /* SOURCE OF ERROR? BUFSIZE SHOULD BE 3X AS BIG BECAUSE OF PIXEL_S? */
-#define WIDTH 1024
-#define HEIGHT 768
+#define WIDTH 100
+#define HEIGHT 100
 #define BUFSIZE PIXEL_S * WIDTH * HEIGHT
 
 /* PIXEL INFORMATION */
@@ -160,5 +160,12 @@ void writePPM(char*, PIXEL**);
 
 /***************
  * displayBuffer
+ * displays the pixels in a template file
  ***************/
 void displayBuffer(TEMPLATE*);
+
+/********************************
+ * displayImageBuffer
+ * displays pixels in the image buffer
+ ********************************/
+void displayImageBuffer(PIXEL**);
