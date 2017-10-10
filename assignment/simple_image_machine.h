@@ -3,7 +3,7 @@
  * ----------------------
  * 
  * OCTOBER 10, 2017
- * VERSION 0.4_b
+ * VERSION 0.4_c
  *
  ***************************************************************************************************/
 
@@ -144,7 +144,7 @@ void fillBuffer(PIXEL**, PIXEL);
  * loadTemplate
  * loads a template file named on the command-line into a PIXEL template buffer of unknown size
  **************/
-PIXEL_T loadTemplate(char*, TEMPLATE*);
+TEMPLATE* loadTemplate(char**, int);
 
 /*********
  * overlay

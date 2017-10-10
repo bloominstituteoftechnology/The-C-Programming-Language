@@ -3,7 +3,7 @@
  * ----------------------
  *
  * OCTOBER 10, 2017
- * VERSION 0.4_b
+ * VERSION 0.4_c
  *
  * DIRECTIONS:
  * ===========
@@ -45,28 +45,19 @@ int main(int argc, char** argv) {
   fillBuffer(imagebuffer, WHITE);
   /* displayImageBuffer(imagebuffer); */
 
-  /* Loop over template files */
-  for (int f = 3; f < argc; f++) { /* template x y (point at which to overlay template file in image buffer */
-    TEMPLATE* template;
-    template->name = argv[f++];
-    template->start_x = atoi(argv[f++]);
-    template->start_y = atoi(argv[f++]);
-    if (isnan(template->start_x) || isnan(template->start_y)) {
-      fprintf(stderr, "template starting point is incorrect: start-x: %d start-y: %d\n",
-              template->start_x, template->start_y);
-      fprintf(stderr, USAGE);
-      exit(1);
-    }
+  /* THIRD, loop over template files given on command line, load them, and overlay them */
+  int f = 3;
+  while (f < argc) {
+    TEMPLATE* template = loadTemplate(argv, f);
+    f += 3;
     
-    PIXEL_T templateBuffSize = loadTemplate(template->name, template); /* load a template file */
-
-    /* overlay(template); /\* overlay the template data on the buffer file *\/ */
-    free(template->buff);
+    /*   overlay(template); /\* overlay the template data on the buffer file *\/ */
+    /*   free(template->buff); */
   }
   /* writePPM(outputfile); /\* write the imagebuffer to an output file *\/ */
 
-  free(imagebuffer);
-  return 0;
+  /* free(imagebuffer); */
+  /* return 0; */
 }
 /***************************************************************************
  * END MAIN
@@ -145,40 +136,43 @@ void fillBuffer(PIXEL** buff, PIXEL fill) {
  *             TEMPLATE* template                                          *
  * returns:    PIXEL_T (size of template in pixels)                        *
  ***************************************************************************/
-PIXEL_T loadTemplate(char* filename, TEMPLATE* template) {
-  PIXEL_T pixelsRead;
-  
-  if ((fp = fopen(filename, READ)) != NULL) {
+TEMPLATE* loadTemplate(char** argv, int f) {
+  TEMPLATE* template;
 
+  char* name = argv[f++];
+  int start_x = atoi(argv[f++]);
+  int start_y = atoi(argv[f++]);
+
+  if ((fp = fopen(name, READ)) != NULL) {
     int width = 0;
     int height = 0;
-    char newl = ' ';
     
-    if ((fscanf(fp, "%d %d%c", &width, &height, &newl)) != 3) {
+    if ((fscanf(fp, "%d %d\n", &width, &height)) != 2) {
       fprintf(stderr, "ERROR reading width height in template file\n");
       exit(EXIT_FAILURE);
     }
+    int templateSize = width * height;
+
+    template->name = name;
+    template->start_x = start_x;
+    template->start_y = start_y;
     template->width = width;
     template->height = height;
-    int template_size = width * height;
-
-    int templateBuffSize = PIXEL_S * width * height;
-    if ((template->buff = malloc(templateBuffSize)) == NULL) {
-      fprintf(stderr, "ERROR mallocing memory for template buffer\n");
-      exit(EXIT_FAILURE);
-    }
-
-    pixelsRead = fread(template->buff, PIXEL_S, templateBuffSize, fp);
+    template->buff = calloc(templateSize, PIXEL_S);
+    
+    PIXEL_T pixelsRead = fread(template->buff, PIXEL_S, templateSize, fp);
+    templateInfo(template);
+    printf("pixels read = %d\n", pixelsRead);
     fclose(fp);
 
-    /* printf("read %d pixels from %s\n", pixelsRead, template->name);c- */
+    /* printf("read %d pixels from %s\n", pixelsRead, template->name); */
     /* displayBuffer(template); */
     
   } else {
-    fprintf(stderr, "can't open file %s\n", filename);
+    fprintf(stderr, "can't open file %s\n", name);
     exit(1);
   }
-  return pixelsRead;
+  return template;
 }
 
 /***************************************************************************
