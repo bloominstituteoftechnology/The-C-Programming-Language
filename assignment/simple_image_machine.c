@@ -3,7 +3,7 @@
  * ----------------------
  *
  * OCTOBER 10, 2017
- * VERSION 0.3_f
+ * VERSION 0.4_a
  *
  * DIRECTIONS:
  * ===========
@@ -26,11 +26,8 @@
 
 #include "./simple_image_machine.h"
 
-#define VERSION 0.3_f
-
+#define VERSION 0.4_a
 #define USAGE "USAGE: simple_image_machine -o <outputfile>.ppm template1 <x1> <y1> template2 <x2> <y2> ...\n"
-
-PIXEL imagebuffer[HEIGHT][WIDTH];
 
 /* *************************************************************************
  * MAIN
@@ -41,6 +38,12 @@ int main(int argc, char** argv) {
   char* outputfile = outputFilename(argc, argv);
 
   /* SECOND, create and initialize an array that will contain r,g,b color values */
+  PIXEL** imagebuffer;
+  imagebuffer = malloc(PIXEL_S * HEIGHT);
+  for (int row = 0; row < HEIGHT; row++) {
+    imagebuffer[row] = malloc(PIXEL_S * WIDTH);
+  }
+
   fillBuffer(imagebuffer, WHITE);
 
   /* displayBuffer(); */
@@ -66,6 +69,7 @@ int main(int argc, char** argv) {
   }
   /* writePPM(outputfile); /\* write the imagebuffer to an output file *\/ */
 
+  free(imagebuffer);
   return 0;
 }
 /***************************************************************************
@@ -128,7 +132,7 @@ void templateInfo(TEMPLATE* t) {
  *             PIXEL fill                                                  *
  * returns:    void                                                        *
  ***************************************************************************/
-void fillBuffer(PIXEL buff[HEIGHT][WIDTH], PIXEL fill) {
+void fillBuffer(PIXEL** buff, PIXEL fill) {
   for (int i = 0; i < HEIGHT; i++) {
     for (int j = 0; j < WIDTH; j++) {
       buff[i][j] = fill;
@@ -189,7 +193,7 @@ PIXEL_T loadTemplate(char* filename, TEMPLATE* template) {
  * parameters; TEMPLATE* template                                          *
  * returns:    void                                                        *
  ***************************************************************************/
-void overlay(TEMPLATE* template) {
+void overlay(PIXEL** imagebuffer, TEMPLATE* template) {
   int width = template->width;
   int height = template->height;
   int start_x = template->start_x;
@@ -214,7 +218,7 @@ void overlay(TEMPLATE* template) {
  * parameters: char* outputfile                                            *
  * returns:    void                                                        *
  ***************************************************************************/
-void writePPM(char* outputfile) {
+void writePPM(char* outputfile, PIXEL** imagebuffer) {
   if ((fp = fopen(outputfile, WRITE)) != NULL) {
     /* http://netpbm.sourceforge.net/doc/ppm.html */
     /* Each PPM image consists of the following:
@@ -234,7 +238,7 @@ void writePPM(char* outputfile) {
                                                                                BUFSIZE SHOULD BE 3X AS BIG
                                                                                TO ACCOUNT FOR PIXEL_S BEING 
                                                                                3 BYTES */
-      fprintf(stderr, "ERROR writing image buffer; wrote [%d] bytes out of [%d] possible\n", written, BUFSIZE);
+      fprintf(stderr, "ERROR writing image buffer; wrote [%d] bytes out of [%lu] possible\n", written, BUFSIZE);
       exit(1);
     }
     fclose(fp);

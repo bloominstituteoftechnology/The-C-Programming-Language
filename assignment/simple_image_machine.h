@@ -3,7 +3,7 @@
  * ----------------------
  * 
  * OCTOBER 10, 2017
- * VERSION 0.3_h
+ * VERSION 0.4_a
  *
  ***************************************************************************************************/
 
@@ -62,7 +62,7 @@ typedef struct {
 /* SOURCE OF ERROR? BUFSIZE SHOULD BE 3X AS BIG BECAUSE OF PIXEL_S? */
 #define WIDTH 1024
 #define HEIGHT 768
-#define BUFSIZE WIDTH * HEIGHT
+#define BUFSIZE PIXEL_S * WIDTH * HEIGHT
 
 /* PIXEL INFORMATION */
 #define PIXEL_S sizeof(PIXEL)
@@ -138,7 +138,7 @@ char* getoutputfile();
  * fillBuffer
  * fills a buffer with a pixel
  ************/
-void fillBuffer(PIXEL[HEIGHT][WIDTH], PIXEL);
+void fillBuffer(PIXEL**, PIXEL);
 
 /**************
  * loadTemplate
@@ -150,13 +150,13 @@ PIXEL_T loadTemplate(char*, TEMPLATE*);
  * overlay
  * overlays a template buffer onto an image buffer
  *********/
-void overlay(TEMPLATE*);
+void overlay(PIXEL**, TEMPLATE*);
 
 /**********
  * writePPM
  * writes the image buffer to the outputfile
  **********/
-void writePPM(char*);
+void writePPM(char*, PIXEL**);
 
 /***************
  * displayBuffer
