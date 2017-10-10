@@ -3,7 +3,7 @@
  * ----------------------
  *
  * OCTOBER 10, 2017
- * VERSION 0.3_e
+ * VERSION 0.3_f
  *
  * DIRECTIONS:
  * ===========
@@ -26,7 +26,7 @@
 
 #include "./simple_image_machine.h"
 
-#define VERSION 0.3_e
+#define VERSION 0.3_f
 
 #define USAGE "USAGE: simple_image_machine -o <outputfile>.ppm template1 <x1> <y1> template2 <x2> <y2> ...\n"
 
@@ -74,6 +74,12 @@ int main(int argc, char** argv) {
 
 /***************************************************************************
  * outputFilename                                                          *
+ * --------------                                                          *
+ * Uses getopt to process options -o outputfile | -h                       *
+ *                                                                         *
+ * parameters: int (argc)                                                  *
+ *             char* (argv)                                                *
+ * returns:    char* (output file name)                                    *
  ***************************************************************************/
 char* outputFilename(int argc, char* argv[]) {
   int ch;
@@ -100,11 +106,28 @@ beginning of the template file as two numbers and a newline: `xxx yyy \\n'.\n");
   return optarg;
 }
 
+/***************************************************************************
+ * templateInfo                                                            *
+ * ------------                                                            *
+ * Prints template information for debugging                               *
+ *                                                                         *
+ * parameter; TEMPLATE*                                                    *
+ * returns:   void                                                         *
+ ***************************************************************************/
 void templateInfo(TEMPLATE* t) {
   fprintf(stderr, "template name: %s size: (%d x %d) stamp point: (%d, %d)\n",
           t->name, t->width, t->height, t->start_x, t->start_y);
 }
 
+/***************************************************************************
+ * fillBuffer                                                              *
+ * ----------                                                              *
+ * Initializes a buffer with a fill value                                  *
+ *                                                                         *
+ * parameters: PIXEL** buffer                                              *
+ *             PIXEL fill                                                  *
+ * returns:    void                                                        *
+ ***************************************************************************/
 void fillBuffer(PIXEL buff[HEIGHT][WIDTH], PIXEL fill) {
   for (int i = 0; i < HEIGHT; i++) {
     for (int j = 0; j < WIDTH; j++) {
@@ -113,6 +136,15 @@ void fillBuffer(PIXEL buff[HEIGHT][WIDTH], PIXEL fill) {
   }
 }
 
+/***************************************************************************
+ * loadTemplate                                                            *
+ * ------------                                                            *
+ * Loads a template as given on the command line                           *
+ *                                                                         *
+ * parameters: char* filename                                              *
+ *             TEMPLATE* template                                          *
+ * returns:    PIXEL_T (size of template in pixels)                        *
+ ***************************************************************************/
 PIXEL_T loadTemplate(char* filename, TEMPLATE* template) {
   PIXEL_T pixelsRead;
   
@@ -149,6 +181,14 @@ PIXEL_T loadTemplate(char* filename, TEMPLATE* template) {
   return pixelsRead;
 }
 
+/***************************************************************************
+ * overlay                                                                 *
+ * -------                                                                 *
+ * Overlays a template onto the image buffer                               *
+ *                                                                         *
+ * parameters; TEMPLATE* template                                          *
+ * returns:    void                                                        *
+ ***************************************************************************/
 void overlay(TEMPLATE* template) {
   int width = template->width;
   int height = template->height;
@@ -166,6 +206,14 @@ void overlay(TEMPLATE* template) {
   }
 }
 
+/***************************************************************************
+ * writePPM                                                                *
+ * --------                                                                *
+ * Writes out the image buffer as a PPM (type P6) image file               *
+ *                                                                         *
+ * parameters: char* outputfile                                            *
+ * returns:    void                                                        *
+ ***************************************************************************/
 void writePPM(char* outputfile) {
   if ((fp = fopen(outputfile, WRITE)) != NULL) {
     /* http://netpbm.sourceforge.net/doc/ppm.html */
@@ -197,23 +245,38 @@ void writePPM(char* outputfile) {
   }
 }
 
-/**************************************************************************
- * makeColor
- **************************************************************************/
+/***************************************************************************
+ * makeColor                                                               *
+ * ---------                                                               *
+ * Given three colors, make and return a PIXEL                             *
+ *                                                                         *
+ * parameters; color (red), color (green), color (blue)                    *
+ * returns:    PIXEL                                                       *
+ ***************************************************************************/
 PIXEL makeColor(color red, color green, color blue) {
   return (PIXEL){red, green, blue};
 }
 
 /***************************************************************************
- * showColors
+ * showColors                                                              *
+ * ----------                                                              *
+ * Given a PIXEL, print out its components for debuggin                    *
+ *                                                                         *
+ * parameters; PIXEL* p                                                    *
+ * returns:    void                                                        *
  ***************************************************************************/
 void showColors(PIXEL* p) {
   printf("%x:%x:%x ", p->red & 0xFF, p->green & 0xFF, p->blue & 0xFF);
 }
 
-/**************************************************************************
- * displayBuffer
- **************************************************************************/
+/***************************************************************************
+ * displayBuffer                                                           *
+ * -------------                                                           *
+ * Given a template, print out its components for debuggin                 *
+ *                                                                         *
+ * parameters: TEMPLATE* template                                          *
+ * returns:    void                                                        *
+ ***************************************************************************/
 void displayBuffer(TEMPLATE* template) {
   templateInfo(template);
     for (int row = 0; row < template->height; row++) {
