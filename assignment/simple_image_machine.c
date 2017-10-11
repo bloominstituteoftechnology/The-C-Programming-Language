@@ -3,7 +3,7 @@
  * ----------------------
  *
  * OCTOBER 10, 2017
- * VERSION 0.4_d
+ * VERSION 0.5
  *
  * DIRECTIONS:
  * ===========
@@ -26,7 +26,7 @@
 
 #include "./simple_image_machine.h"
 
-#define VERSION 0.4_d
+#define VERSION 0.5
 #define USAGE "USAGE: simple_image_machine -o <outputfile>.ppm template1 <x1> <y1> template2 <x2> <y2> ...\n"
 
 /* *************************************************************************
@@ -36,6 +36,7 @@ int main(int argc, char** argv) {
 
   /* FIRST, option processing: -o outputfile | -h */
   char* outputfile = outputFilename(argc, argv);
+  fprintf(stderr, "-o %s\n", outputfile);
 
   /* SECOND, create and initialize with all white an array that holds r,g,b color values */
   PIXEL** imagebuffer = malloc(sizeof(void*) * HEIGHT);
@@ -43,17 +44,19 @@ int main(int argc, char** argv) {
     imagebuffer[row] = calloc(WIDTH, PIXEL_S);
   }
   fillBuffer(imagebuffer, WHITE);
-  /* displayImageBuffer(imagebuffer); */
+  fprintf(stderr, "image buffer (%d x %d) created and initialized\n", WIDTH, HEIGHT);
 
   /* THIRD, loop over template files given on command line, load them, and overlay them */
   int f = 3;
   while (f < argc) {
     TEMPLATE* template = &(TEMPLATE){};
     loadTemplate(template, argv, f);
+    templateInfo(template);
     f += 3;
-    /* displayImageBuffer(imagebuffer); */
-    /* displayBuffer(template); */
+
     overlay(imagebuffer, template);
+    fprintf(stderr, "Template stamped onto image buffer at (%d, %d)\n",
+            template->start_x, template->start_y);
     free(template->buff);
   }
   writePPM(outputfile, imagebuffer);
@@ -77,8 +80,7 @@ int main(int argc, char** argv) {
  ***************************************************************************/
 char* outputFilename(int argc, char* argv[]) {
   int ch;
-  while ((ch = getopt(argc, argv, "ho:")) != -1) { /* -o outputfile.ppm
-                                                      -h help */
+  while ((ch = getopt(argc, argv, "ho:")) != -1) {
     if (ch == 'o')
       break;
     if (ch == 'h') {
@@ -95,8 +97,6 @@ beginning of the template file as two numbers and a newline: `xxx yyy \\n'.\n");
     fprintf(stderr, USAGE);
     exit(1);
   }
-  /* getopt successfully optained the output file name; contained in optarg */
-  /* printf("Output PPM file will be `%s'\n", optarg); */
   return optarg;
 }
 
@@ -168,7 +168,6 @@ void loadTemplate(TEMPLATE* template, char** argv, int f) {
       fprintf(stderr, "ERROR reading template file %s (%d)\n", name, templateSize);
       exit(EXIT_FAILURE);
     }
-    /* printf("read %d pixels from %s\n", pixelsRead, template->name); */
     fclose(fp);
 
   } else {
@@ -195,24 +194,15 @@ void overlay(PIXEL** imagebuffer, TEMPLATE* template) {
   int end_y = fmin(HEIGHT, start_y + height);
   int p = 0;
 
-  /* fprintf(stderr, "imagebuffer size: (%d x %d)\n", WIDTH, HEIGHT); */
-  /* fprintf(stderr, "template buffer : (%d x %d)\n", width, height); */
-  /* fprintf(stderr, "overlaying: start: (%d, %d) -- end: (%d, %d)\n", start_x, start_y, end_x, end_y); */
-  
   for (int row = start_y; row < end_y; row++) {
     for (int col = start_x; col < end_x; col++) {
       PIXEL* pixel = template->buff + p;
       if (!(pixel->red == 0 && pixel->green == 0 && pixel->blue == 0)) {
-        /* fprintf(stderr, "[%2d %2d] ", row, col); */
-        /* showColors(&imagebuffer[row][col]); */
-        /* showColors(pixel); */
         imagebuffer[row][col] = *pixel;
       }
       p++;
     }
-    /* fprintf(stderr, "\n"); */
   }
-  /* displayImageBuffer(imagebuffer); */
 }
 
 /***************************************************************************
@@ -237,21 +227,30 @@ void writePPM(char* outputfile, PIXEL** imagebuffer) {
     /*   7. The maximum color value (Maxval), again in ASCII decimal. Must be less than 65536 and more than zero. */
     if ((fprintf(fp, "%s\n#%s\n%d %d\n%d\n", PPM_TYPE, outputfile, WIDTH, HEIGHT, MAXVAL)) == EOF) {
       fprintf(stderr, "error writing header information to output file %s\n", outputfile);
-      exit(1);
+      exit(EXIT_FAILURE);
     }
-    PIXEL_T written;
-    if ((written = fwrite(imagebuffer, PIXEL_S, BUFSIZE, fp)) != BUFSIZE) { /* I THINK THIS IS SOURCE OF ERROR
-                                                                               BUFSIZE SHOULD BE 3X AS BIG
-                                                                               TO ACCOUNT FOR PIXEL_S BEING 
-                                                                               3 BYTES */
-      fprintf(stderr, "ERROR writing image buffer; wrote [%d] bytes out of [%d] possible\n", written, BUFSIZE);
-      exit(1);
+    PIXEL_T wrote;
+    for (int row = 0; row < HEIGHT; row++) {
+      for (int col = 0; col < WIDTH; col++) {
+        if ((fwrite(&imagebuffer[row][col], PIXEL_S, 1, fp)) == 1) {
+          wrote++;
+        } else {
+          fprintf(stderr, "ERROR writing (%d, %d) to %s\n", row, col, outputfile);
+          exit(EXIT_FAILURE);
+        }
+      }
     }
+
+    if (wrote != BUFSIZE) {
+      fprintf(stderr, "ERROR writing image buffer; wrote [%d] bytes out of [%d] possible\n", wrote, BUFSIZE);
+      exit(EXIT_FAILURE);
+    }
+    fprintf(stderr, "Wrote %d pixels to %s\n", wrote, outputfile);
     fclose(fp);
   }
   else {
     fprintf(stderr, "error opening a file for writing to\n");
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 }
 

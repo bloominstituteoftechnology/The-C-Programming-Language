@@ -3,7 +3,7 @@
  * ----------------------
  * 
  * OCTOBER 10, 2017
- * VERSION 0.4_d
+ * VERSION 0.5
  *
  ***************************************************************************************************/
 
@@ -59,8 +59,8 @@ typedef struct {
  ***************************************************************************************************/
 
 /* IMAGE SIZE WIDTH x HEIGHT PIXELS */
-#define WIDTH 100
-#define HEIGHT 100
+#define WIDTH 1024
+#define HEIGHT 768
 #define BUFSIZE WIDTH * HEIGHT
 
 /* PIXEL INFORMATION */
