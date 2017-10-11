@@ -3,7 +3,7 @@
  * ----------------------
  *
  * OCTOBER 10, 2017
- * VERSION 0.4_c
+ * VERSION 0.4_d
  *
  * DIRECTIONS:
  * ===========
@@ -26,7 +26,7 @@
 
 #include "./simple_image_machine.h"
 
-#define VERSION 0.4_b
+#define VERSION 0.4_d
 #define USAGE "USAGE: simple_image_machine -o <outputfile>.ppm template1 <x1> <y1> template2 <x2> <y2> ...\n"
 
 /* *************************************************************************
@@ -48,16 +48,19 @@ int main(int argc, char** argv) {
   /* THIRD, loop over template files given on command line, load them, and overlay them */
   int f = 3;
   while (f < argc) {
-    TEMPLATE* template = loadTemplate(argv, f);
+    TEMPLATE* template = &(TEMPLATE){};
+    loadTemplate(template, argv, f);
     f += 3;
-    
-    /*   overlay(template); /\* overlay the template data on the buffer file *\/ */
-    /*   free(template->buff); */
+    /* displayImageBuffer(imagebuffer); */
+    /* displayBuffer(template); */
+    overlay(imagebuffer, template);
+    free(template->buff);
   }
-  /* writePPM(outputfile); /\* write the imagebuffer to an output file *\/ */
+  writePPM(outputfile, imagebuffer);
 
-  /* free(imagebuffer); */
-  /* return 0; */
+  free(imagebuffer);
+  fprintf(stderr, "Done\n");
+  return 0;
 }
 /***************************************************************************
  * END MAIN
@@ -84,7 +87,6 @@ char* outputFilename(int argc, char* argv[]) {
 The templates are placed in the image at the points given after the template names.\n  The templates can be larger than or \
 extend outside the boundaries of the image, but they will be truncated.\n  The template sizes are given in ascii at the \
 beginning of the template file as two numbers and a newline: `xxx yyy \\n'.\n");
-
       exit(EXIT_SUCCESS);
     }
   }
@@ -94,6 +96,7 @@ beginning of the template file as two numbers and a newline: `xxx yyy \\n'.\n");
     exit(1);
   }
   /* getopt successfully optained the output file name; contained in optarg */
+  /* printf("Output PPM file will be `%s'\n", optarg); */
   return optarg;
 }
 
@@ -106,8 +109,8 @@ beginning of the template file as two numbers and a newline: `xxx yyy \\n'.\n");
  * returns:   void                                                         *
  ***************************************************************************/
 void templateInfo(TEMPLATE* t) {
-  fprintf(stderr, "template name: %s size: (%d x %d) stamp point: (%d, %d)\n",
-          t->name, t->width, t->height, t->start_x, t->start_y);
+  fprintf(stderr, "template name: %s size: (%d x %d) stamp point: (%d, %d) buff %p\n",
+          t->name, t->width, t->height, t->start_x, t->start_y, t->buff);
 }
 
 /***************************************************************************
@@ -132,12 +135,12 @@ void fillBuffer(PIXEL** buff, PIXEL fill) {
  * ------------                                                            *
  * Loads a template as given on the command line                           *
  *                                                                         *
- * parameters: char* filename                                              *
- *             TEMPLATE* template                                          *
- * returns:    PIXEL_T (size of template in pixels)                        *
+ * parameters: TEMPLATE* template                                          *
+ *             char** argv (contains template name                         *
+ *             int f (current position inside argv)                        *
+ * returns:    void                                                        *
  ***************************************************************************/
-TEMPLATE* loadTemplate(char** argv, int f) {
-  TEMPLATE* template;
+void loadTemplate(TEMPLATE* template, char** argv, int f) {
 
   char* name = argv[f++];
   int start_x = atoi(argv[f++]);
@@ -159,20 +162,19 @@ TEMPLATE* loadTemplate(char** argv, int f) {
     template->width = width;
     template->height = height;
     template->buff = calloc(templateSize, PIXEL_S);
-    
-    PIXEL_T pixelsRead = fread(template->buff, PIXEL_S, templateSize, fp);
-    templateInfo(template);
-    printf("pixels read = %d\n", pixelsRead);
+
+    PIXEL_T pixelsRead;
+    if ((pixelsRead = fread(template->buff, PIXEL_S, templateSize, fp)) != templateSize) {
+      fprintf(stderr, "ERROR reading template file %s (%d)\n", name, templateSize);
+      exit(EXIT_FAILURE);
+    }
+    /* printf("read %d pixels from %s\n", pixelsRead, template->name); */
     fclose(fp);
 
-    /* printf("read %d pixels from %s\n", pixelsRead, template->name); */
-    /* displayBuffer(template); */
-    
   } else {
     fprintf(stderr, "can't open file %s\n", name);
     exit(1);
   }
-  return template;
 }
 
 /***************************************************************************
@@ -180,7 +182,8 @@ TEMPLATE* loadTemplate(char** argv, int f) {
  * -------                                                                 *
  * Overlays a template onto the image buffer                               *
  *                                                                         *
- * parameters; TEMPLATE* template                                          *
+ * parameters: PIXEL** imagebuffer                                         *
+ *             TEMPLATE* template                                          *
  * returns:    void                                                        *
  ***************************************************************************/
 void overlay(PIXEL** imagebuffer, TEMPLATE* template) {
@@ -188,16 +191,28 @@ void overlay(PIXEL** imagebuffer, TEMPLATE* template) {
   int height = template->height;
   int start_x = template->start_x;
   int start_y = template->start_y;
+  int end_x = fmin(WIDTH, start_x + width);
+  int end_y = fmin(HEIGHT, start_y + height);
   int p = 0;
-  for (int row = start_y; row < start_y + height; row++) {
-    for (int col = start_x; col < start_x + width; col++) {
+
+  /* fprintf(stderr, "imagebuffer size: (%d x %d)\n", WIDTH, HEIGHT); */
+  /* fprintf(stderr, "template buffer : (%d x %d)\n", width, height); */
+  /* fprintf(stderr, "overlaying: start: (%d, %d) -- end: (%d, %d)\n", start_x, start_y, end_x, end_y); */
+  
+  for (int row = start_y; row < end_y; row++) {
+    for (int col = start_x; col < end_x; col++) {
       PIXEL* pixel = template->buff + p;
-      if (!(pixel->red == 0 && pixel->green == 0 && pixel->blue == 0)) { 
-          imagebuffer[row][col] = *pixel;
-        }
-      p += PIXEL_S;
+      if (!(pixel->red == 0 && pixel->green == 0 && pixel->blue == 0)) {
+        /* fprintf(stderr, "[%2d %2d] ", row, col); */
+        /* showColors(&imagebuffer[row][col]); */
+        /* showColors(pixel); */
+        imagebuffer[row][col] = *pixel;
+      }
+      p++;
     }
+    /* fprintf(stderr, "\n"); */
   }
+  /* displayImageBuffer(imagebuffer); */
 }
 
 /***************************************************************************
@@ -206,6 +221,7 @@ void overlay(PIXEL** imagebuffer, TEMPLATE* template) {
  * Writes out the image buffer as a PPM (type P6) image file               *
  *                                                                         *
  * parameters: char* outputfile                                            *
+ *             PIXEL** imagebuffer                                         *
  * returns:    void                                                        *
  ***************************************************************************/
 void writePPM(char* outputfile, PIXEL** imagebuffer) {
@@ -223,12 +239,12 @@ void writePPM(char* outputfile, PIXEL** imagebuffer) {
       fprintf(stderr, "error writing header information to output file %s\n", outputfile);
       exit(1);
     }
-    int written;
+    PIXEL_T written;
     if ((written = fwrite(imagebuffer, PIXEL_S, BUFSIZE, fp)) != BUFSIZE) { /* I THINK THIS IS SOURCE OF ERROR
                                                                                BUFSIZE SHOULD BE 3X AS BIG
                                                                                TO ACCOUNT FOR PIXEL_S BEING 
                                                                                3 BYTES */
-      fprintf(stderr, "ERROR writing image buffer; wrote [%d] bytes out of [%lu] possible\n", written, BUFSIZE);
+      fprintf(stderr, "ERROR writing image buffer; wrote [%d] bytes out of [%d] possible\n", written, BUFSIZE);
       exit(1);
     }
     fclose(fp);
@@ -260,7 +276,7 @@ PIXEL makeColor(color red, color green, color blue) {
  * returns:    void                                                        *
  ***************************************************************************/
 void showColors(PIXEL* p) {
-  printf("%x:%x:%x ", p->red & 0xFF, p->green & 0xFF, p->blue & 0xFF);
+  fprintf(stderr, "%x:%x:%x ", p->red & 0xFF, p->green & 0xFF, p->blue & 0xFF);
 }
 
 /***************************************************************************
@@ -273,15 +289,15 @@ void showColors(PIXEL* p) {
  ***************************************************************************/
 void displayBuffer(TEMPLATE* template) {
   templateInfo(template);
-    for (int row = 0; row < template->height; row++) {
-      printf("row %2d ", row);
-      for (int col = 0; col < template->width; col++) {
-        printf("[%d]", col);
-        PIXEL* p = template->buff + (row * PIXEL_S * template->width) + (col * PIXEL_S);
-        showColors(p);
-      }
-      putchar('\n');
+  for (int row = 0; row < template->height; row++) {
+    fprintf(stderr, "row %2d ", row);
+    for (int col = 0; col < template->width; col++) {
+      fprintf(stderr, "[%d]", col);
+      PIXEL* p = template->buff + (row * template->width + col);
+      showColors(p);
     }
+    fprintf(stderr, "\n");
+  }
 }
 
 /***************************************************************************
@@ -294,12 +310,13 @@ void displayBuffer(TEMPLATE* template) {
  ***************************************************************************/
 void displayImageBuffer(PIXEL** imagebuffer) {
   for (int row = 0; row < HEIGHT; row++) {
-    printf("row [%2d]\n", row);
+    fprintf(stderr, "row [%2d]\n", row);
     for (int col = 0; col < WIDTH; col++) {
       PIXEL p = imagebuffer[row][col];
-      printf("[%2d]", col);
+      fprintf(stderr, "[%2d]", col);
       showColors(&p);
     }
-    putchar('\n');
+    fprintf(stderr, "\n");
   }
+  fprintf(stderr, "DONE\n");
 }

@@ -3,7 +3,7 @@
  * ----------------------
  * 
  * OCTOBER 10, 2017
- * VERSION 0.4_c
+ * VERSION 0.4_d
  *
  ***************************************************************************************************/
 
@@ -58,11 +58,10 @@ typedef struct {
  * DEFINES                                                                                         *
  ***************************************************************************************************/
 
-/* IMAGE SIZE 1024 x 768 PIXELS */
-/* SOURCE OF ERROR? BUFSIZE SHOULD BE 3X AS BIG BECAUSE OF PIXEL_S? */
+/* IMAGE SIZE WIDTH x HEIGHT PIXELS */
 #define WIDTH 100
 #define HEIGHT 100
-#define BUFSIZE PIXEL_S * WIDTH * HEIGHT
+#define BUFSIZE WIDTH * HEIGHT
 
 /* PIXEL INFORMATION */
 #define PIXEL_S sizeof(PIXEL)
@@ -144,7 +143,7 @@ void fillBuffer(PIXEL**, PIXEL);
  * loadTemplate
  * loads a template file named on the command-line into a PIXEL template buffer of unknown size
  **************/
-TEMPLATE* loadTemplate(char**, int);
+void loadTemplate(TEMPLATE*, char**, int);
 
 /*********
  * overlay

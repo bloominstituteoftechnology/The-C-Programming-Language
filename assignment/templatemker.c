@@ -2,14 +2,14 @@
  * templatemker.c
  * --------------
  *
- * OCTOBER 7, 2017
- * VERSION 0.3_h
+ * OCTOBER 10, 2017
+ * VERSION 0.4_a
  *
  ***************************************************************************************************/
 
 #include "./simple_image_machine.h"
 
-#define VERSION 0.3_h
+#define VERSION 0.4_a
 #define DESCRIPTION "Program to make a template for 'simple_image_machine'.\n\
 Give a number (1, 2, 3, etc) for the template using the option -t <template-num>.\n\
 The default size is 1024 x 768, but you can enter an explicit size after the number.\n"
@@ -117,8 +117,8 @@ int main(int argc, char** argv) {
    * Main Loop                                                           *
    ***********************************************************************/
   int byte_count = 0;
-  for (int h = 0; h <= height; h++) {
-    for (int w = 0; w <= width; w++) {
+  for (int h = 0; h < height; h++) {
+    for (int w = 0; w < width; w++) {
       PIXEL_INFO p_info = pixel_info(w, h, width, height);
       switch (template_num) {
       case 1:
@@ -201,6 +201,9 @@ PIXEL_INFO pixel_info(int x, int y, int width, int height) {
     };
 }
 
+/***************************************************************************************************
+ * PRINTPIXEL                                                                                      *
+ ***************************************************************************************************/
 void printPixel(PIXEL p) {
   if ((fwrite(&p, PIXEL_S, 1, fp) != 1)) {
     fprintf(stderr, "ERROR writing PIXEL in\n");
@@ -231,9 +234,11 @@ void showPixelInfo(PIXEL_INFO pi) {
  * ALL_ONE_COLOR: -t 1 (WHITE) 2 (BLACK) 3 (GRAY)                                                  *
  ***************************************************************************************************/
 int all_one_color(PIXEL_INFO pi, PIXEL pixel_color, int byte_count) {
-  /* showPixel(pixel_color); */
   printPixel(pixel_color);
-  return byte_count += PIXEL_S;
+  byte_count += PIXEL_S;
+  /* printf("[%d](%d, %d) ", byte_count, pi.x, pi.y); */
+  /* showPixel(pixel_color); */
+  return byte_count;
 }
 
 /***************************************************************************************************
@@ -245,10 +250,11 @@ int diag_gradient(PIXEL_INFO pi, int byte_count) {
   color p_green = GREEN_MIN;
   color p_blue = BLUE_MIN;
   PIXEL p = (PIXEL){p_red, p_green, p_blue};
+  printPixel(p);
+  byte_count += PIXEL_S;
   /* showPixel(p); */
   /* printf("\n"); */
-  printPixel(p);
-  return byte_count += PIXEL_S;
+  return byte_count;
 }
 
 /***************************************************************************************************
@@ -259,11 +265,12 @@ int horiz_gradient(PIXEL_INFO pi, int byte_count) {
   color p_green = GREEN_MIN;// + (color)(PIXEL_COLOR_RANGE * pi.x_percent);
   color p_blue = BLUE_MIN + (color)(PIXEL_COLOR_RANGE * pi.z_percent);
   PIXEL p = (PIXEL){p_red, p_green, p_blue};
-  showPixelInfo(pi);
-  showPixel(p);
-  printf("\n");
   printPixel(p);
-  return byte_count += PIXEL_S;
+  byte_count += PIXEL_S;
+  /* showPixelInfo(pi); */
+  /* showPixel(p); */
+  /* printf("\n"); */
+  return byte_count;
 }
 
 /***************************************************************************************************
