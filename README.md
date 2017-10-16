@@ -11,6 +11,16 @@ You will still find C used at many shops for which it is not the best tool for t
 
 C was once called a "higher level programming language", meaning that it has been abstracted far enough away from hardware to enable rapid development. Today, C is the "lowest level programming language" used in common development, though there are still a great number of ASM developers who are writing operating system drivers, graphics card libraries, and custom hardware. Languages other than C are considered to be higher level, meaning they provide more abstraction and increased developer productivity as a result of easy to use libraries, in exchange for pure processing efficiency.
 
+# A simple C program
+
+# Important C specifics
+
+"Stack" objects are those that you create inside of a function, like `struct node newNode;` `newNode.value = 5;` These objects only live as long as the function they were created in lives (their stack frame).
+
+"Heap" objects are those that you create with malloc `struct node* newNode = malloc(sizeof(struct node)); newNode->value = 5;` Heap objects live forever, until you free them. If you don't free them with `free(newNode)` then your program has a memory leak and will eventually crash (if it is long-running).
+
+It is the most important aspect of C, and takes a lot of practice to get quick with it.
+
 # C build process
 
 C is a compiled language. This means that the syntax and tokens that you write in your .c file are converted from the "higher level language" of C directly into machine language, and are loaded into and executed deterministically by the CPU. C is more than compiled, however; C programs are built in a series of steps:
