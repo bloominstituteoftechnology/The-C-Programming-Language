@@ -9,9 +9,11 @@ You will still find C used at many shops for which it is not the best tool for t
 
 # Objective
 
-The main objective of this lab is, in fact, _not_ to teach you C. The goal here isn't get you as comfortable with C as you are with JavaScript. The main points are the following:
+The main objective of this lab is, in fact, _not_ to teach you C. The goal here isn't to get you as comfortable with C as you are with JavaScript. The main points are the following:
   - To get you guys working in a different language, because once you know one language very well, you'll reach a point where the language itself starts to constrain how you think about problems. Becoming familiar with other languages pushes the boundaries of your understanding and skills as developers. 
   - A *HUGE* chunk of the world's software is written in C. Again, while the main goal of this lab is not to get good at writing C, it is trying to introduce many new concepts to you that higher-lever, dynamically-typed, interpreted language like JavaScript completely abstracts away from you under the hood. Working with C gets you much closer to the 'bare metal', giving you a much clearer glimpse of what computers are doing under the hood. 
+
+With that being said, C is _really hard_. It is extremely unforgiving, and at the same time, it is a very strict language, in large part due to the fact that it is statically typed. Coming from JavaScript, the idea of have to specify the type of _every_ function, variable, return value, etc. is a little foreign. In essence, shifting to C in the coming weeks is going to be _really difficult_. We are aware of this, and again, these labs and assignments are designed such that you'll have learned a lot even if you only get a fraction of it completed. Try to keep this fact in mind. :)
 
 # Order of languages
 
