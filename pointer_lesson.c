@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -60,8 +59,7 @@ struct radDoublyLinkedList* doTheStructAssignmentTest() {
   theList->value = 5;
   return theList;
 }
-void radDoublyLinkedListAdd(struct radDoublyLinkedList* list, int value)
-{
+void radDoublyLinkedListAdd(struct radDoublyLinkedList* list, int value) {
   struct radDoublyLinkedList* newItem = malloc(sizeof(radDoublyLinkedList));
   newItem->value = value;
   newItem->last = NULL;

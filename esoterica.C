@@ -1,3 +1,15 @@
+#include <math.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
+#include <assert.h>
+#include <stdarg.h>
+#include <setjmp.h>
+#include <signal.h>
+#include <time.h>
+#include <limits.h>
+#include <float.h>
+
 int outsideVariable = 5;
 
 /**
@@ -6,16 +18,10 @@ int outsideVariable = 5;
  * branches if else else if
  * arrays
  * structs (to become classes)
- * ^^^ ^^^ ^^^ ^^^ ^^^ you did this
- * Operating Systems C Lesson Assignment 1
- * 
- * Operating Systems and C and Theory and Algorithms Lessons
- * \/\/\/\/
- *
  * extended types UINT_32 myInt = 5;
  * pointers, references, dereferencers, and pass-by-value
  * int x = 5
- * int* x = 5; //
+ * int* x = 5; 
  * struct myStruct* y;
  * *y = 5;
  * int x = 5;
@@ -78,27 +84,6 @@ int outsideVariable = 5;
 
 int main(int argc, char** argv) {
   printf("Hello world!");
-/**
- * primitives (int char float double)
- * loops, break, continue
- * branches if else else if, while
- * arrays
- * structs (to become classes)
- * ^^^ ^^^ ^^^ ^^^ ^^^
- * Operating Systems C Lesson Assignment 1
- * 
- * Operating Systems and C and Theory and Algorithms Lessons
- * \/\/\/\/
- * operators, concatenated operators, and pre/post-order incrementation
- * extended types
- * pointers, references, dereferencers, and pass-by-value
- * memory management malloc/free
- * const
- * meta programming (#ifdef)
- * declaration
- * definition
- * initialization
- */
   // forward declaration
   // It used to be required that any variable you wished to use inside of
   // a function had to be declared at the top of the function, then used later.
@@ -109,7 +94,7 @@ int main(int argc, char** argv) {
   foo = 5;
   // or, even more commonly:
   int i;
-  for(i = 0 ; i < 5 ; ++i) {}
+  for (i = 0 ; i < 5 ; ++i) {}
   // now it is allowed to do:
   int Foo = 5;
 
@@ -174,34 +159,10 @@ int main(int argc, char** argv) {
  * bit shifting >> <<
  * binary operators &, |, ~
  * compiler optimizations
- */
-  
- /*
-  int main(int argc, char** argv) {
-    int x = 5;
-    return x;
-  }
- */
-    
- /*
+
  clang -pedantic micro.C -S -o test.asm
  */
   char* myString = "Hello dude";
 }
-
-#include <math.h>
-#include <ctype.h>
-#include <string.h>
-#include <stdlib.h>
-#include <assert.h>
-#include <stdarg.h>
-#include <setjmp.h>
-#include <signal.h>
-#include <time.h>
-#include <limits.h>
-#include <float.h>
-
-
-
 
 
