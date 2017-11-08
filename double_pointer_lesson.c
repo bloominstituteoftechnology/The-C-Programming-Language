@@ -1,10 +1,6 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-
-// Makefile
-// make
 
 int main(int argc, char** argv) {
   int a = 5;
@@ -42,18 +38,18 @@ int main(int argc, char** argv) {
   
   int array[50];
   int i;
-  for(i = 0 ; i < 50 ; ++i ) {
+  for (i = 0 ; i < 50 ; ++i ) {
     array[i] = i*i;
   }
   int ii;
-  for(ii = 0 ; ii < 50 ; ii++ ) {
+  for (ii = 0 ; ii < 50 ; ii++ ) {
     printf("%d\n", array[ii]);
   }
 
   // pre-allocated array - not as useful
   int twoDArrayOldStyle[1000][1000];
-  for(i = 0 ; i < 1000; ++i ) {
-    for(ii = 0 ; ii < 1000; ii++ ) {
+  for (i = 0 ; i < 1000; ++i ) {
+    for (ii = 0 ; ii < 1000; ii++ ) {
       twoDArrayOldStyle[i][ii] = 1;
     }
   }
@@ -67,16 +63,15 @@ int main(int argc, char** argv) {
   // twoDArray is a memory address of an array of memory addresses
   int** twoDArray;
   twoDArray = malloc(m * sizeof(void*));
-  for(i = 0 ; i < m ; ++i ) {
+  for (i = 0 ; i < m ; ++i ) {
     twoDArray[i] = malloc(n * sizeof(int));
   }
   puts("Can I assign memory into my 2d array?");
-  for(i = 0 ; i < m; ++i ) {
-    for(ii = 0 ; ii < n; ii++ ) {
-      if( sqrt(abs(i-m/2)*abs(ii-n/2)) < diameter && sqrt(abs(i-m/2)*abs(ii-n/2) > diameter-1 ) ) {
+  for (i = 0 ; i < m; ++i ) {
+    for (ii = 0 ; ii < n; ii++ ) {
+      if ( sqrt(abs(i-m/2)*abs(ii-n/2)) < diameter && sqrt(abs(i-m/2)*abs(ii-n/2) > diameter-1 ) ) {
         twoDArray[i][ii] = 1;
-      }
-      else {
+      } else {
         twoDArray[i][ii] = 0;
       }
     }
@@ -90,11 +85,13 @@ int main(int argc, char** argv) {
   }
   */
   char x = getc(stdin);
-  for(i = 0 ; i < m ; ++i ) {
+  for (i = 0 ; i < m ; ++i ) {
+    // The `free` function releases memory that has been allocated via `malloc`
+    // This lets the OS know that this block of memory is available to now be reallocated 
+    // Every time memory is allocated with `malloc`, it needs to be released with a call to `free`
+    // Otherwise, you'll get memory leaks, meaning you'll slowly get all the memory on your machine eaten up
     free(twoDArray[i]);
   }
   free(twoDArray);
-  
-  // TODO: how to convert an integer value into a binary output / memory address
 }
 
