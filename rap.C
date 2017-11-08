@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
   strcpy( test.sentence, WHERE );
   printf( "%s\n", test.sentence );
 
-  dataPacket outbound;
+  struct dataPacket outbound;
   outbound.packetType = TCP;
   outbound.packetDataLength = strlen(WHERE);
   // nothing happens here, C lets us write to unallocated memory, but it

@@ -8,10 +8,13 @@ struct template1{
   int** stamp;
   int size;
   int* color;
+  char* filename;
 };
 
 /**
  * getTemplate1() returns the first template for this program
  */
 struct template1 getTemplate1();
+struct template1 getSquareTemplate();
+struct template1 getLTemplate();
 

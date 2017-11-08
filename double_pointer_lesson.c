@@ -96,5 +96,6 @@ int main(int argc, char** argv) {
   free(twoDArray);
   
   // TODO: how to convert an integer value into a binary output / memory address
+  // &value
 }
 

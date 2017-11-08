@@ -1,0 +1,8 @@
+{
+  "files.associations": {
+    "template1.h": "c",
+    "template5x5.h": "c",
+    "square.h": "c",
+    "string.h": "c"
+  }
+}

@@ -7,6 +7,7 @@
  * an executable called `micro` in your directory. Execute that with the command `./micro`. What happens?
  */
 int main() {
-  // Your code here 
-}
+  int x = 5;
+  return x;
+};
 

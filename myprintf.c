@@ -12,6 +12,7 @@
  * Try printing out argc as well to find out what it is. Or you could look it up. That works too.
  */
 int main(int argc, char** argv) {
-    // Your code here 
+   printf(argv[1], argv);
+   printf("%i \n", argc);
 }
 
