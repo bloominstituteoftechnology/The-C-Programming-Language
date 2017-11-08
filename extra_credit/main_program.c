@@ -17,7 +17,7 @@ void pixel_write(int i, int j, int r, int g, int b) {
 }
 
 void write_pic(struct template1 temp, int x, int y) {
-  fp = fopen("output.ppm", "wb");
+  fp = fopen("output.ppm", "w");
   fprintf(fp, "P6\n %i %i 255\n", 1600, 768);
       for (int i = 0; i < 1600; i++) {
       for(int j=  0; j < 1600; j++) {
