@@ -6,7 +6,7 @@
 #include "template5x5.h"
 FILE * fp;
 
-int mem[1600][1600];
+int mem[1600][1600][3];
 
 void pixel_write(int i, int j, int r, int g, int b) {
     static unsigned char color[3];
@@ -23,10 +23,12 @@ void write_pic(struct template1 temp, int x, int y) {
       for(int j=  0; j < 1600; j++) {
         if (i >= x && i < (x + temp.size) && j >= y && j < (y + temp.size) && temp.stamp[i - x][j - y])
         {
-          pixel_write(i, j , 0, 0, 0);
-          mem[i][j] = 0;
+          pixel_write(i, j , temp.r, temp.g, temp.b);
+          mem[i][j][0] = temp.r;
+          mem[i][j][1] = temp.g;
+          mem[i][j][2] = temp.b;
         } else {
-          pixel_write(i, j, mem[i][j], mem[i][j], mem[i][j]);
+          pixel_write(i, j, mem[i][j][0], mem[i][j][1], mem[i][j][2]);
         }
       }
     }
@@ -36,7 +38,9 @@ int main(int argc, char** argv) {
   // Read arguments from the command line!
   for (int i = 0; i < 1600; i++) {
       for(int j=  0; j < 1600; j++) {
-          mem[i][j] = 255;
+          mem[i][j][0] = 255;
+          mem[i][j][1] = 255;
+          mem[i][j][2] = 255;
         }
       }
 
@@ -52,10 +56,11 @@ int main(int argc, char** argv) {
     if (strcmp(argv[i], "l") == 0) write_pic(l, atoi(argv[i+1]), atoi(argv[i+2]));
   }
      fclose(fp);
-
      for (int i = 0; i < 1600; i++) {
       for(int j=  0; j < 1600; j++) {
-          mem[i][j] = 255;
+          mem[i][j][0] = 255;
+          mem[i][j][1] = 255;
+          mem[i][j][2] = 255;
         }
       }
 

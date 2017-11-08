@@ -9,10 +9,9 @@ struct template1 getTemplate1() {
   // code that initializes the template1 structure
   //
   int size = 40;
-  int color[3];
-  color[0] = 57;
-  color[1] = 63;
-  color[2] = 200; 
+  int r = 57;
+  int g = 200;
+  int b = 200;
   int image[40][40]; // you don't need this line because you are mallocing this
                      // below
   for (int i = 0; i < size; i++) {
@@ -45,7 +44,9 @@ struct template1 getTemplate1() {
 
   returnTemplate.stamp = twoDArray;
   returnTemplate.size = size;
-  returnTemplate.color = color;
+  returnTemplate.r = r;
+  returnTemplate.g = g;
+  returnTemplate.b = b;
   // code that reads template1.dat
   // code that puts data from template1.dat into template1 structure
   /* -- test print function
@@ -63,10 +64,9 @@ struct template1 getTemplate1() {
 struct template1 getSquareTemplate() {
   struct template1 returnTemplate;
   int size = 200;
-  int color[3];
-  color[0] = 255;
-  color[1] = 255;
-  color[2] = 255; 
+  int r = 20;
+  int g = 30;
+  int b = 20;
   int image[200][200];
   for (int i = 0; i < 200; i++) {
     for(int j= 0; j < 200; j++) {
@@ -92,7 +92,9 @@ struct template1 getSquareTemplate() {
 
   returnTemplate.stamp = twoDArray;
   returnTemplate.size = size;
-  returnTemplate.color = color;
+  returnTemplate.r = r;
+  returnTemplate.g = g;
+  returnTemplate.b = b;
   // code that reads template1.dat
   // code that puts data from template1.dat into template1 structure
   /* -- test print function
@@ -110,10 +112,9 @@ struct template1 getSquareTemplate() {
 struct template1 getLTemplate() {
   struct template1 returnTemplate;
   int size = 200;
-  int color[3];
-  color[0] = 255;
-  color[1] = 255;
-  color[2] = 255; 
+  int r = 50;
+  int g = 100;
+  int b = 100;
   int image[200][200];
   for (int i = 0; i < 200; i++) {
     for (int j = 0; j < 200; j++) {
@@ -145,7 +146,9 @@ struct template1 getLTemplate() {
 
   returnTemplate.stamp = twoDArray;
   returnTemplate.size = size;
-  returnTemplate.color = color;
+  returnTemplate.r = r;
+  returnTemplate.g = g;
+  returnTemplate.b = b;
   // code that reads template1.dat
   // code that puts data from template1.dat into template1 structure
   /* -- test print function

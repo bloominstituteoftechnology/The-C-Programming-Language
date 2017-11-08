@@ -7,7 +7,9 @@ struct template1{
   // this must be free()ed after it has been malloced
   int** stamp;
   int size;
-  int* color;
+  int r;
+  int g;
+  int b;
   char* filename;
 };
 
