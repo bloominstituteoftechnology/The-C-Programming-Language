@@ -35,43 +35,36 @@ void write_pic(struct template1 temp, int x, int y) {
 }
 
 int main(int argc, char** argv) {
-  // Read arguments from the command line!
   for (int i = 0; i < 1600; i++) {
       for(int j=  0; j < 1600; j++) {
           mem[i][j][0] = 255;
           mem[i][j][1] = 255;
           mem[i][j][2] = 255;
-        }
       }
-
-  // Create an array to store our output image in in r,g, and b
-
-  // Create templates based on the arguments that were passed in
+    }
 
   struct template1 myFirstTemplate = getTemplate1();
   struct template1 square = getSquareTemplate();
   struct template1 l = getLTemplate();
+  struct template1 circle = getCircleTemplate();
+
   for (int i = 1; i < argc; i += 3) {
     if (strcmp(argv[i], "square") == 0) write_pic(square, atoi(argv[i+1]), atoi(argv[i+2]));
     if (strcmp(argv[i], "l") == 0) write_pic(l, atoi(argv[i+1]), atoi(argv[i+2]));
+    if (strcmp(argv[i], "circle") == 0) write_pic(circle, atoi(argv[i+1]), atoi(argv[i+2]));
   }
-     fclose(fp);
-     for (int i = 0; i < 1600; i++) {
-      for(int j=  0; j < 1600; j++) {
-          mem[i][j][0] = 255;
-          mem[i][j][1] = 255;
-          mem[i][j][2] = 255;
-        }
-      }
-
-
-
-  // write the data from the template to the coordinates specified by args
-  // into the output image array
-  
-  // write the array to the file name specified by the -o option
-
-
+  fclose(fp);
+  for (int i = 0; i < 1600; i++) {
+    for(int j=  0; j < 1600; j++) {
+        mem[i][j][0] = 255;
+        mem[i][j][1] = 255;
+        mem[i][j][2] = 255;
+    }
+  }
   return 0;
 }
 
+// make program by clang main_program.c template1.c -o main_program
+// 3 templates to choose from.. l, square, and circle each 200 X 200
+// run program like ./main_program  l 100 500 square 200 300 circle 200 600
+// this will make a file called output.ppm of the stamps and at their chosen location (the following numbers)

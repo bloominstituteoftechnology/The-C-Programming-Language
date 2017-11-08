@@ -19,4 +19,5 @@ struct template1{
 struct template1 getTemplate1();
 struct template1 getSquareTemplate();
 struct template1 getLTemplate();
+struct template1 getCircleTemplate();
 

@@ -64,9 +64,9 @@ struct template1 getTemplate1() {
 struct template1 getSquareTemplate() {
   struct template1 returnTemplate;
   int size = 200;
-  int r = 20;
-  int g = 30;
-  int b = 20;
+  int r = 120;
+  int g = 230;
+  int b = 120;
   int image[200][200];
   for (int i = 0; i < 200; i++) {
     for(int j= 0; j < 200; j++) {
@@ -74,7 +74,6 @@ struct template1 getSquareTemplate() {
     };
   };
 
-  // This is the code for mallocing a 2d array
   int m = 200;
   int n = 200;
   int** twoDArray;
@@ -83,7 +82,6 @@ struct template1 getSquareTemplate() {
     twoDArray[i] = malloc(n * sizeof(int));
   }
 
-  // next lets copy the image[40][40] data into our 2D array
   for (int i = 0; i < m; i++) {
     for(int j= 0; j < n; j++) {
       twoDArray[i][j] = image[i][j];
@@ -95,24 +93,13 @@ struct template1 getSquareTemplate() {
   returnTemplate.r = r;
   returnTemplate.g = g;
   returnTemplate.b = b;
-  // code that reads template1.dat
-  // code that puts data from template1.dat into template1 structure
-  /* -- test print function
-  for (int i = 0; i < m; i++) {
-    for(int j= 0; j < n; j++) {
-      printf("%d", returnTemplate.stamp[i][j]);
-    }
-    printf("\n");
-  }
-  */
-
   return returnTemplate;
 }
 
 struct template1 getLTemplate() {
   struct template1 returnTemplate;
   int size = 200;
-  int r = 50;
+  int r = 250;
   int g = 100;
   int b = 100;
   int image[200][200];
@@ -126,9 +113,6 @@ struct template1 getLTemplate() {
     }
   }
 
-        
-
-  // This is the code for mallocing a 2d array
   int m = 200;
   int n = 200;
   int** twoDArray;
@@ -137,7 +121,6 @@ struct template1 getLTemplate() {
     twoDArray[i] = malloc(n * sizeof(int));
   }
 
-  // next lets copy the image[40][40] data into our 2D array
   for (int i = 0; i < m; i++) {
     for(int j= 0; j < n; j++) {
       twoDArray[i][j] = image[i][j];
@@ -149,16 +132,45 @@ struct template1 getLTemplate() {
   returnTemplate.r = r;
   returnTemplate.g = g;
   returnTemplate.b = b;
-  // code that reads template1.dat
-  // code that puts data from template1.dat into template1 structure
-  /* -- test print function
+  return returnTemplate;
+}
+
+struct template1 getCircleTemplate() {
+  struct template1 returnTemplate;
+  int size = 200;
+  int r = 200;
+  int g = 200;
+  int b = 250;
+  int image[200][200];
+  int radius = 100;
+  for (int i = -radius; i < radius; i++) {
+    for (int j = -radius; j < radius; j++) {
+      if ( i * i + j * j <= radius * radius) {
+        image[i + radius][j + radius] = 1;
+      } else {
+        image[i + radius][j + radius] = 0;
+      }
+    }
+  }
+
+  int m = 200;
+  int n = 200;
+  int** twoDArray;
+  twoDArray = malloc(m * sizeof(void*));
+  for(int i = 0 ; i < m ; ++i ) {
+    twoDArray[i] = malloc(n * sizeof(int));
+  }
+
   for (int i = 0; i < m; i++) {
     for(int j= 0; j < n; j++) {
-      printf("%d", returnTemplate.stamp[i][j]);
+      twoDArray[i][j] = image[i][j];
     }
-    printf("\n");
   }
-  */
 
+  returnTemplate.stamp = twoDArray;
+  returnTemplate.size = size;
+  returnTemplate.r = r;
+  returnTemplate.g = g;
+  returnTemplate.b = b;
   return returnTemplate;
 }
