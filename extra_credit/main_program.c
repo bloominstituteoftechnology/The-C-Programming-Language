@@ -9,11 +9,11 @@ FILE * fp;
 int mem[1600][1600][3];
 
 void pixel_write(int i, int j, int r, int g, int b) {
-    static unsigned char color[3];
-    color[0] = r;
-    color[1] = g;
-    color[2] = b;
-    fwrite(color, 1, 3, fp);
+  static unsigned char color[3];
+  color[0] = r;
+  color[1] = g;
+  color[2] = b;
+  fwrite(color, 1, 3, fp);
 }
 
 void write_pic(struct template1 temp, int x, int y) {
@@ -37,9 +37,9 @@ void write_pic(struct template1 temp, int x, int y) {
 int main(int argc, char** argv) {
   for (int i = 0; i < 1600; i++) {
       for(int j=  0; j < 1600; j++) {
-          mem[i][j][0] = 255;
-          mem[i][j][1] = 255;
-          mem[i][j][2] = 255;
+        mem[i][j][0] = 255;
+        mem[i][j][1] = 255;
+        mem[i][j][2] = 255;
       }
     }
 

@@ -6,14 +6,12 @@
 
 struct template1 getTemplate1() {
   struct template1 returnTemplate;
-  // code that initializes the template1 structure
-  //
+
   int size = 40;
   int r = 57;
   int g = 200;
   int b = 200;
-  int image[40][40]; // you don't need this line because you are mallocing this
-                     // below
+  int image[40][40];
   for (int i = 0; i < size; i++) {
     for(int j= 0; j < size; j++) {
       if (i < 10) {
@@ -26,7 +24,6 @@ struct template1 getTemplate1() {
     };
   };
 
-  // This is the code for mallocing a 2d array
   int m = 40;
   int n = 40;
   int** twoDArray;
@@ -35,7 +32,6 @@ struct template1 getTemplate1() {
     twoDArray[i] = malloc(n * sizeof(int));
   }
 
-  // next lets copy the image[40][40] data into our 2D array
   for (int i = 0; i < m; i++) {
     for(int j= 0; j < n; j++) {
       twoDArray[i][j] = image[i][j];
@@ -47,17 +43,6 @@ struct template1 getTemplate1() {
   returnTemplate.r = r;
   returnTemplate.g = g;
   returnTemplate.b = b;
-  // code that reads template1.dat
-  // code that puts data from template1.dat into template1 structure
-  /* -- test print function
-  for (int i = 0; i < m; i++) {
-    for(int j= 0; j < n; j++) {
-      printf("%d", returnTemplate.stamp[i][j]);
-    }
-    printf("\n");
-  }
-  */
-
   return returnTemplate;
 }
 
