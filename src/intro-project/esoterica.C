@@ -75,10 +75,14 @@ int outsideVariable = 5;
  */
 
 // In order to run a program, you must:
-// Write this C file
-// Make it syntactically correct
-// Compile the program with gcc my_first_C_program.C -o my_output
-// ./my_output
+//
+// * Write this C file
+//
+// * Make it syntactically correct
+//
+// * Compile the program with gcc my_first_C_program.C -o my_output
+//
+// * ./my_output
 
 #include <stdio.h>
 
@@ -130,24 +134,31 @@ int main(int argc, char** argv) {
    * header files
    * file scope
    */
+
   // extern
+  //
   // C uses a technique called "file scope". The only objects and functions
   // that a C program is aware of are the ones that are located in the current
   // file. The extern keyword moves a variable from file scope into global scope
   // so it can be read by other files.
+
   extern int outsideVariable;
   int y = outsideVariable;
 
   // includes 
   // External files are referred to by their header.
+  //
   // Files that are included must be compiled into the final program by the
   // compiler - specifying the inclusion does not affect compiler behavior.
+  //
   // Adding the file to the compiler involves another step - either passing
   // the source file into the `gcc` command, or passing in the compiled `.o`
   // object file into the `gcc` command, or specifying the location of an
   // object file with the `-L` argument to gcc.
+  //
   // "" searches your current directory and directories passed in with -I
   // <> searches in system directories
+
  /* libraries
  * objects
  * compilation

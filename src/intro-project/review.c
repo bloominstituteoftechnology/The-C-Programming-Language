@@ -7,10 +7,13 @@
 // make
 
 int main(int argc, char** argv) {
+
   int a = 5;
   printf("Process memory address of a: %p\n", &a);
+
   int* ap = &a;
   printf("Process memory address of ap: %p\n", ap);
+
   int* b;
   printf("Process memory address of b: %p\n", b);
 
@@ -18,15 +21,19 @@ int main(int argc, char** argv) {
   // printf is print formatted
   puts("b has not been allocated yet");
   printf("%s", "b has not been allocated yet\n");
+
   //int* c = a;
   //printf("What in the binary value of a: %p",(void*)a);
 
   b = malloc(sizeof(int));
   puts("b just got allocated");
   printf("Process memory address of b: %p\n", b);
+
   *b = 6;
   printf("Value of b: %d\n", *b);
+
   free(b);
+
   int** d;
   //(cp->cp->c);
   //**c = 7;
@@ -42,9 +49,11 @@ int main(int argc, char** argv) {
   
   int array[50];
   int i;
+
   for(i = 0 ; i < 50 ; ++i ) {
     array[i] = i*i;
   }
+
   int ii;
   for(ii = 0 ; ii < 50 ; ii++ ) {
     printf("%d\n", array[ii]);
@@ -59,17 +68,21 @@ int main(int argc, char** argv) {
   }
 
   puts("Too big?");
-  //int twoDArrayHuge[1000][1000];
+  //int twoDArrayHuge[1000000][1000000];
+
   // dynamically allocated array
   int m = 100000;
   int n = 100000;
   int diameter = 5;
+
   // twoDArray is a memory address of an array of memory addresses
   int** twoDArray;
+
   twoDArray = malloc(m * sizeof(void*));
   for(i = 0 ; i < m ; ++i ) {
     twoDArray[i] = malloc(n * sizeof(int));
   }
+
   puts("Can I assign memory into my 2d array?");
   for(i = 0 ; i < m; ++i ) {
     for(ii = 0 ; ii < n; ii++ ) {
@@ -81,6 +94,7 @@ int main(int argc, char** argv) {
       }
     }
   }
+
   /*
   for(i = 0 ; i < m ; ++i ) {
     for(ii = 0 ; ii < n; ii++ ) {
@@ -89,6 +103,7 @@ int main(int argc, char** argv) {
     printf("\n");
   }
   */
+
   char x = getc(stdin);
   for(i = 0 ; i < m ; ++i ) {
     free(twoDArray[i]);
