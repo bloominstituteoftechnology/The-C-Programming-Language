@@ -131,6 +131,43 @@ What happened on that dereference line?
 
 We're saying, "Compute the sum `a + b` and then set whatever `results` points at to that sum."
 
+## Dynamic Memory
+
+When allocating objects or arrays to use at runtime, pointers are used to track
+the object or the first element of the allocated array.
+
+> You'd dynamically allocate objects if you didn't know at compile-time how many
+> objects you needed.
+
+**Be sure to free memory when you're done with it!** Failure to do so will
+result in a _memory leak_.
+
+```c
+// Allocate 10 ints
+int *a = malloc(sizeof(int) * 10);
+
+// a[0] is the 0th element in the array
+// a[1] is the 1st element
+
+// ....
+
+// When done, free it:
+free(a);
+```
+
+```c
+// Allocate a single new animal structure
+struct animal *x = malloc(sizeof(struct animal));
+
+// Use the arrow operator to access fields of the struct pointer:
+// x->leg_count
+
+// ....
+
+// When done, free it:
+free(x);
+```
+
 ## References
 
 * [Pointers in Beej's Guide to C](http://beej.us/guide/bgc/output/html/multipage/pointers.html)
