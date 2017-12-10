@@ -2,21 +2,21 @@
 
 ## Objectives
 
-* [Learning New Languages](learning-new-languages/)
-* [Intro to C](c-intro/)
-* [C Input and Output](c-input-output/)
-* [C Pointer Types](c-pointers/)
+* [Learning New Languages](lessons/learning-new-languages/)
+* [Intro to C](lessons/c-intro/)
+* [C Input and Output](lessons/c-input-output/)
+* [C Pointer Types](lessons/c-pointers/)
 
 ### Secondary Objectives
 
-* [The C Build Process](c-build-process/)
+* [The C Build Process](lessons/c-build-process/)
 
 ## Assignments
 
 ### Project (Mo)
 
-* [Intro Project](intro-project/)
+* [Intro Project](src/intro-project/)
 
 ### Personal Project (Tu,Th)
 
-* [Image stamper](image-stamper/)
+* [Image stamper](src/image-stamper/)
