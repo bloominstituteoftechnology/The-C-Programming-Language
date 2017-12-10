@@ -66,6 +66,27 @@ keyboard).
     }
 ```
 
+## Standard File Names
+
+There are three standard files that are already open for you when you use the `stdio` routines.
+
+* `stdin`: standard input (the keyboard, typically)
+* `stdout`: standard output (the screen, typically)
+* `stderr`: standard error (also the screen, but used for error messages)
+
+These two lines are equivalent:
+
+```c
+printf("Hi!\n");           // prints to stdout
+fprintf(stdout, "Hi!\n");  // prints to stdout, too
+```
+
+The most common use case is printing errors:
+
+```c
+fprintf(stderr, "Oh, man... something awful happened.\n");
+```
+
 ## References
 
 * [Beej's Guide to C `printf` reference](http://beej.us/guide/bgc/output/html/multipage/printf.html)
