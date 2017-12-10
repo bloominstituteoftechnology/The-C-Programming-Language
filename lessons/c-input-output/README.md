@@ -42,6 +42,35 @@ right, set field widths, and all kinds of stuff.
     printf("You entered %s\n", b);
 ```
 
+## File I/O
+
+You can open a file for reading or writing with `fopen()`. Then use `fprintf()`
+to write to it, or `fscanf()` to read from it (just as if it were the screen or
+keyboard).
+
+```c
+    FILE *fp;
+
+    fp = fopen("myfile.txt", "w"); // or "e" for write
+
+    if (fp == NULL) {
+        printf("An error occurred opening the file!\n");
+        printf("Probably file not found.\n");
+    } else {
+        // Print this to the file
+        int data = 12;
+
+        fprintf(fp, "Hello, world! Data is %d.\n", data);
+
+        fclose(fp); // All done, close the file
+    }
+```
+
+## References
+
+* [Beej's Guide to C `printf` reference](http://beej.us/guide/bgc/output/html/multipage/printf.html)
+* [`printf` `man` page](https://linux.die.net/man/3/printf)
+
 ## Let's Hack!
 
 ### Print a Countdown

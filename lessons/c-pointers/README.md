@@ -1,5 +1,8 @@
 # Pointers in C
 
+*Pointers are a hard concept. Once they click, they're easy. But they are really
+the only conceptually difficult thing in C.*
+
 ## The Main Problems
 
 ### Multiple return values from functions
@@ -130,9 +133,8 @@ We're saying, "Compute the sum `a + b` and then set whatever `results` points at
 
 ## References
 
-* Pointers in Beej's Guide to C
-* Beej's Blog entry on pointers in C
-
+* [Pointers in Beej's Guide to C](http://beej.us/guide/bgc/output/html/multipage/pointers.html)
+* [Beej's Blog entry on pointers in C](http://beej.us/blog/data/c-pointers/)
 
 ## Let's Hack!
 

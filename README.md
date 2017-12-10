@@ -2,10 +2,10 @@
 
 ## Objectives
 
-* [Learning New Languages](lessons/learning-new-languages/)
-* [Intro to C](lessons/c-intro/)
-* [C Input and Output](lessons/c-input-output/)
-* [C Pointer Types](lessons/c-pointers/)
+1. [Learning New Languages](lessons/learning-new-languages/)
+2. [Intro to C](lessons/c-intro/)
+3. [C Input and Output](lessons/c-input-output/)
+4. [C Pointer Types](lessons/c-pointers/)
 
 ### Secondary Objectives
 
