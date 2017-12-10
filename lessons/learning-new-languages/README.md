@@ -37,9 +37,9 @@ C can also be compiled to run in-browser, but this is a rare usage.
 
 ### References
 
-* K&R C, the canonical book
-* Beej's Guide to C
-* Beej's C pointer blog
+* [K&R C, the canonical book](https://en.wikipedia.org/wiki/The_C_Programming_Language)
+* [Beej's Guide to C](http://beej.us/guide/bgc/)
+* [Beej's C pointer blog](http://beej.us/blog/data/c-pointers/)
 
 
 ### Objective
