@@ -60,7 +60,7 @@ Arch Linux: `sudo pacman -S imagemagick`
 
 Use `convert` like so to generate an RGB image:
 
-`convert foo.ppm -compress none foo.ppm`
+`convert foo.jpg -compress none foo.ppm`
 
 Then the file will be in the format specified by the [plain PPM format
 specification](http://netpbm.sourceforge.net/doc/ppm.html). This is an ASCII
@@ -68,7 +68,7 @@ format that you might have an easier time reading in C.
 
 If you want to read the data in binary format, use:
 
-`convert foo.ppm foo.ppm`
+`convert foo.jpg foo.ppm`
 
 and use `fread()` to read entire rows of the image into arrays at once. This is
 easier to code than parsing the ASCII version, but it does involve learning

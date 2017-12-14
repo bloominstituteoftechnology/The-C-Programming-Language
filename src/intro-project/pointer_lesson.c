@@ -30,7 +30,7 @@ int* childOfMainWithoutAllocation() {
   // memory address of its operand, not the operand's value.
 
   // HOWEVER, returning &integerArray is bad news. WHY?
-  return &integerArray;
+  return integerArray;
 }
 
 void doThePointerAssignmentTest() {

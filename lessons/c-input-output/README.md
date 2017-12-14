@@ -29,7 +29,7 @@ right, set field widths, and all kinds of stuff.
 
 ```c
     int a;
-    int b[100];
+    char b[100];
 
     printf("Enter a value: ");
     scanf("%d", &a); // The & is important for non-arrays
@@ -51,7 +51,7 @@ keyboard).
 ```c
     FILE *fp;
 
-    fp = fopen("myfile.txt", "w"); // or "e" for write
+    fp = fopen("myfile.txt", "w"); // or "r" for read
 
     if (fp == NULL) {
         printf("An error occurred opening the file!\n");

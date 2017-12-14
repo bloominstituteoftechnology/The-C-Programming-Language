@@ -70,7 +70,7 @@ _dereferencing_ the pointer with the `*` operator.
 
 ```c
 	int a = 12;
-	int *p = a; // Pointer declaration, NOT a dereference!
+	int *p = &a; // Pointer declaration, NOT a dereference!
 
 	*p = 99; // That's a dereference
 	printf("%d\n", a); // Prints 99! Why?
@@ -82,7 +82,7 @@ Don't get confused by all the uses of `*` in C. It's all in the context.
 	/* This is a comment */
 
 	int a = 12;
-	int *p = a; // Declaring a variable, * means this is a pointer variable
+	int *p = &a; // Declaring a variable, * means this is a pointer variable
 
 	*p = 99;    // Dereference, manipulating object p points to, a
 
@@ -168,6 +168,58 @@ struct animal *x = malloc(sizeof(struct animal));
 free(x);
 ```
 
+## The Heap and Stack
+
+> Though the concept of stack and heap do not appear in the C language
+> specification, and so theoretically do not exist, they are actually
+> things that do exist that all C programmer are aware of.
+
+When you allocate memory with `malloc()`, it goes in an area of memory
+called _the heap_. It persists on the heap until explicitly freed with
+`free()`, or until the program exits.
+
+Because the memory persists, it makes it legal to do something like this:
+
+```c
+int *give_me_an_int(void)
+{
+	int *p = malloc(sizeof(int));
+
+	return p;
+}
+```
+
+On the other hand, local variables, including local arrays, are
+allocated on _the stack_. When a function returns, all its local
+variables are popped off the stack and thrown away.
+
+This is why it's bad to do this:
+
+```c
+int *give_me_an_int_badly(void)
+{
+	int x = 12;
+
+	return &x;
+}
+```
+
+When the function returns, the local variable `x` is automatically
+destroyed. The pointer to it is invalid and undefined behavior will
+result if it is accessed.
+
+## `NULL` Pointer
+
+`NULL` is a special value a pointer can be given to indicate that the pointer points at nothing.
+
+```c
+int *p = NULL;
+
+if (p == NULL) {
+	p = malloc(100);
+}
+```
+
 ## References
 
 * [Pointers in Beej's Guide to C](http://beej.us/guide/bgc/output/html/multipage/pointers.html)
@@ -201,6 +253,8 @@ int main(void)
 
 	a = 100;
 	b = 50;
+
+	add_subtract(&a, &b);
 
 	if (a == 150 && b == 50) {
 		printf("SUCCESS\n");
