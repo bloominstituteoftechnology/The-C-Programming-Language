@@ -155,13 +155,9 @@ unsigned char *get_pixel(struct ppm *image, int col, int row, unsigned char pixe
  */
 void put_pixel(struct ppm *image, int row, int col, unsigned char *pixel)
 {
-	int index;
+	// Implement me!
 
-	index = (row * image->width * 3) + (col * 3);
-
-	image->data[index+0] = pixel[0]; // R
-	image->data[index+1] = pixel[1]; // G
-	image->data[index+2] = pixel[2]; // B
+	// Use get_pixel() as a model
 }
 
 /**
