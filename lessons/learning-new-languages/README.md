@@ -105,6 +105,8 @@ or
 
 `clang -Wall -Wextra -o hello hello.c`
 
+Note that the `-Wall` flag enables all compiler warnings. The `-Wextra` flag enables extra compiler warnings.
+
 Then run with the command:
 
 `./hello`
