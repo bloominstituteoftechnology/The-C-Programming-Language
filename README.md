@@ -13,10 +13,9 @@
 
 ## Assignments
 
-### Project (Mo)
-
 * [Intro Project](src/intro-project/)
+* [Hangman Game](src/hangman/)
 
-### Personal Project (Tu,Th)
+### Stretch Goal Project
 
 * [Image stamper](src/image-stamper/)
