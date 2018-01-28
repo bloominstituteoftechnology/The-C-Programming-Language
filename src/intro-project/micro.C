@@ -10,7 +10,7 @@
  * you'll see that there will now be an executable called `micro` in your
  * directory.
  * 
- * Execute that with the command `./micro`. What happens?
+ * Execute that with the command `./micro`. What happens? nothing
  */
 int main() {
   // Your code here 

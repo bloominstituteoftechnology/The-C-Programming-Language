@@ -109,7 +109,7 @@ int main(int argc, char** argv) {
       int value;
       // Use of the forward declaration
       struct element *next;
-  }; // Complete definition
+  } element; // Complete definition
   // Tagged struct, has to be defined as a struct to use
   struct flement {
       int value;
@@ -117,7 +117,7 @@ int main(int argc, char** argv) {
       struct flement *next;
   } flement; // tag
   
-  element bar;
+  struct element bar;
   bar.value = 5;
   bar.next = &bar;
 
@@ -173,7 +173,7 @@ int main(int argc, char** argv) {
 
  clang -pedantic micro.C -S -o test.asm
  */
-  char* myString = "Hello dude";
+  const char* myString = "Hello dude";
 }
 
 

@@ -53,13 +53,13 @@ int main(int argc, char** argv) {
   outbound.packetType = TCP;
   outbound.packetDataLength = strlen(WHERE);
 
-  // The follwoing lines are bad. WHY?
-  outbound.packetPayload[0] = 'a';
-  strcpy( outbound.packetPayload, WHERE );
+  // The follwoing lines are bad. WHY? packetPayload has never be assigned 
+  // outbound.packetPayload[0] = 'a'; // causes Segmentation fault, below code never executes
+  // strcpy( outbound.packetPayload, WHERE );
 
   // look up the malloc function 
   // allocate enough memory for "Where is my Lambda swag?"
-  outbound.packetPayload = (char*)malloc(strlen(WHERE));
+  outbound.packetPayload = (char*)malloc(strlen(WHERE) + 1); // + 1 for terminating null
 
   // now when we try to write the data, the changes stick
   strcpy( outbound.packetPayload, WHERE );
@@ -77,7 +77,7 @@ int main(int argc, char** argv) {
   // The memory is still here! This is a safety violation. 
   puts( (outbound.packetPayload) );
 
-  // can we change it?
+  // can we change it? causes 
   outbound.packetPayload[0] = 'f';
   puts( (outbound.packetPayload) );
 
