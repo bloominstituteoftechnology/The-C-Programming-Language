@@ -2,34 +2,19 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "template1.h"
+#include "template%s.h"
 
-struct template1 getTemplate1() {
-  struct template1 returnTemplate;
+struct template%s getTemplate%s() {
+  struct template%s returnTemplate;
   // code that initializes the template1 structure
   //
-  int size = 40;
-  int color[3];
-  color[0] = 57;
-  color[1] = 63;
-  color[2] = 200; 
-  int image[40][40]; // you don't need this line because you are mallocing this
-                     // below
-  for (int i = 0; i < size; i++) {
-    for(int j= 0; j < size; j++) {
-      if (i < 10) {
-          image[i][j] = 1;
-      } else if(j > 19 && j < 25) {
-          image[i][j] = 1;
-      } else {
-          image[i][j] = 0;
-      };
-    };
-  };
+
 
   // This is the code for mallocing a 2d array
-  int m = 40;
-  int n = 40;
+  int m = %d;
+  int n = %d;
+  string fileName= %s;
+  /*
   int** twoDArray;
   twoDArray = (int **)malloc(m * sizeof(void*));
   for(int i = 0 ; i < m ; ++i ) {
@@ -42,10 +27,10 @@ struct template1 getTemplate1() {
       twoDArray[i][j] = image[i][j];
     }
   }
-
-  returnTemplate.stamp = twoDArray;
-  returnTemplate.size = size;
-  returnTemplate.color = color;
+  */
+  returnTemplate.fileName = fileName;
+  returnTemplate.width = m;
+  returnTemplate.height = n;
   // code that reads template1.dat
   // code that puts data from template1.dat into template1 structure
   /* -- test print function

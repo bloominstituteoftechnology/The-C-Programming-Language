@@ -1,0 +1,6 @@
+#include "ppmTemplate.h"
+
+/**
+ * getTemplate1() returns the first template for this program
+ */
+struct ppmTemplate getTemplate%s();
