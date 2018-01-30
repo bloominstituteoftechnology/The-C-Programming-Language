@@ -117,7 +117,7 @@ int main(int argc, char** argv) {
       struct flement *next;
   } flement; // tag
   
-  element bar;
+  struct element bar;
   bar.value = 5;
   bar.next = &bar;
 

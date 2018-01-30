@@ -12,7 +12,12 @@
  * 
  * Execute that with the command `./micro`. What happens?
  */
+#include <stdio.h>
+
 int main() {
+  int x;
+  x = 10;
+  printf("%d\n", x);
   // Your code here 
 }
 

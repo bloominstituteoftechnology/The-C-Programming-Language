@@ -21,5 +21,6 @@
  */
 int main(int argc, char** argv) {
     // Your code here 
+    printf("argv[1]: %d, arvg: %s", argc, argv);
 }
 
