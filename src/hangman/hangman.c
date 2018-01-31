@@ -101,7 +101,7 @@ int main(int argc, char *argv[]) {
 			if ((i == sizeof(ans)/sizeof(ans[0]) - 1) && counter == 0) {
 				// let player know no matches have been found
 				printf("There is no %c.\n\n", guess[0]);
-				for (int i = 1; i < 7; i++) {
+				for (int i = 0; i < 7; i++) {
 					// print out the hangman 
 					for (int j = hangmanY; j < hangmanY + 10 ; j++){
 						printf("%c",HANG_STATES[i][j]);
