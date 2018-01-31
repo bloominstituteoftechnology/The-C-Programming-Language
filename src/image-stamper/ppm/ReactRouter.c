@@ -2,18 +2,18 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "audio.h"
+#include "ReactRouter.h"
 
-struct ppmTemplate getTemplateAudio() {
+struct ppmTemplate getTemplateReactRouter() {
   struct ppmTemplate returnTemplate;
   // code that initializes the template1 structure
   //
 
 
   // This is the code for mallocing a 2d array
-  int m = 456;
-  int n = 666;
-  string fileName= "/home/mark/lambda/The-C-Programming-Language/src/image-stamper/ppm/audio.ppm";
+  int m = 582;
+  int n = 575;
+  string fileName= "/home/mark/lambda/The-C-Programming-Language/src/image-stamper/ppm/ReactRouter.ppm";
   /*
   int** twoDArray;
   twoDArray = (int **)malloc(m * sizeof(void*));

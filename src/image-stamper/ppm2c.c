@@ -1,4 +1,4 @@
-#define debug true
+#define debug false
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,6 +13,8 @@ extern void GetFileParts(char *path, char *path_, char *base_, char *ext_);
 #define MAX_LINE_LENGTH 512
 #define MAX_PPM_LINE_FIELDS 100
 #define MAX_EXT_LENGTH 40
+#define MaxIncludeLength 100
+#define MaxFiles 100
 extern const char *get_filename_ext(const char *filename);
 int main(int argc, char **argv)
 {
@@ -38,7 +40,9 @@ int main(int argc, char **argv)
 #endif
     char outputFile[MAX_PATHNAME_LENGTH];
     strcpy(outputFile, TARGET_PATH);
-
+    char c[MAX_LINE_LENGTH];
+    char hBuf[MAX_LINE_LENGTH * 100];
+    hBuf[0] = 0;
 #if debug
     printf("just after TARGET_PATH copy ext: %s outputFile: %s\n", ext, outputFile);
 #endif
@@ -49,14 +53,8 @@ int main(int argc, char **argv)
 #if debug
     printf("after parts inFile: %s fileName: %s ext_: %s path: %s\n", inFile, fileName, ext_, path);
 #endif
-    FILE * allH = fopen("allPPM.h","a+");
-#define maxIncludeLength 100; 
-    char * allBuf = malloc(maxHFileNameLength*100);
-    allBuf[0] = 0;
-    do {
-        fgets(c, maxIncludeLength, allH);
-        if (feof(allH)) break;
-    }
+
+    
 
     char *hPath = (char *)malloc(MAX_PATHNAME_LENGTH * sizeof(char));
     strcat(outputFile, fileName);
@@ -82,10 +80,13 @@ int main(int argc, char **argv)
     {
         rename(inFile, outputFile);
     }
-    char c[MAX_LINE_LENGTH];
-    char hBuf[MAX_LINE_LENGTH * 100];
-    hBuf[0] = 0;
+
     FILE *f = fopen(outputFile, "r");
+    if (f == NULL) {
+        printf("convert failed, likely bad file name %s\n", outputFile);
+        free(hPath);
+        return 1;
+    }
     fgets(hBuf, MAX_LINE_LENGTH, f);
     hBuf[strlen(hBuf) - 1] = 0; // remove trailing /n
     int h, w;
@@ -111,6 +112,21 @@ int main(int argc, char **argv)
 #if debug
     printf("after parts outputFile: %s fileName: %s ext_: %s path: %s\n", outputFile, fileName, ext_, path);
 #endif   
+    FILE * allH = fopen("allPPM.h","a+");
+    char * allBuf = malloc(MaxIncludeLength*MaxFiles); // max number of files implimented
+    allBuf[0] = 0;
+    do {
+        fgets(c, MaxIncludeLength, allH);
+        if (feof(allH)) break;
+        strcat(allBuf, c);
+    } while(true);
+    sprintf(hBuf, "\t#include \"/.ppm/%s.h\"\n", fileName);
+    if (strstr(allBuf,hBuf) == NULL) {
+        fputs(hBuf, allH);
+    }
+    free(allBuf);
+    fclose(allH);
+
     char * capFileName = strdup(fileName);
     capFileName[0] = toupper(capFileName[0]);
     strcpy(hPath, TARGET_PATH);

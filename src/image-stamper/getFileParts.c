@@ -7,7 +7,7 @@
 // Will return ext_ as    "exe"
 //
 /////////////////////////////////////////////////////////
-#define debugging true
+#define debugging false
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
