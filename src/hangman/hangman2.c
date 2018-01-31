@@ -51,16 +51,16 @@ int main(int argc, char *argv[]) {
     print_ui();
 
     // read user input 
-    guess = read_input();
+    //guess = read_input();
 
     // handle if user wants to exit the game 
     if (strlen(guess) > 1){
-      if strcmp(guess, "exit") == 0) {
+    //  if strcmp(guess, "exit") == 0) {
         // correct guess 
         printf("You guessed the whole word! You win\n")
         free(guess);
         break;
-      } else {
+  //    } else {
         printf("Nope!\n");
         // increase the strike count
       }
