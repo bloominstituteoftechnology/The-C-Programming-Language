@@ -94,14 +94,14 @@ int main(int argc, char** argv) {
     }
   }
 
-  /*
+  
   for(i = 0 ; i < m ; ++i ) {
     for(ii = 0 ; ii < n; ii++ ) {
       printf("%d", twoDArray[i][ii]);
     }
     printf("\n");
   }
-  */
+  
 
   char x = getc(stdin);
   for (i = 0 ; i < m ; ++i ) {
