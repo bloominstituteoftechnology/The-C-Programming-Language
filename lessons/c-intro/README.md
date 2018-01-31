@@ -21,7 +21,7 @@ that header file.
         * `man 3 printf`
 
 ## Types
-
+      
 ### Numeric Types
 
 ```c

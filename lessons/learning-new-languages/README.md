@@ -5,7 +5,7 @@
 * Nothing in CS is static. New languages are created all the time.
 * Employers often expect employees to learn new languages on-the-fly.
 * Learning new languages becomes easier the more languages you learn.
-    * You'll start seeing the similaries between them.
+    * You'll start seeing the similarities between them.
 
 Beej has personally hired engineers with zero experience with the language used
 in the project. But the person was a good engineer, so they picked up the
