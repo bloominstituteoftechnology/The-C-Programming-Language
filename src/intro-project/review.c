@@ -22,8 +22,8 @@ int main(int argc, char** argv) {
   puts("b has not been allocated yet");
   printf("%s", "b has not been allocated yet\n");
 
-  //int* c = a;
-  //printf("What in the binary value of a: %p",(void*)a);
+  int* c = a;
+  printf("What in the binary value of a: %p",(void*)a);
 
   b = malloc(sizeof(int));
   puts("b just got allocated");

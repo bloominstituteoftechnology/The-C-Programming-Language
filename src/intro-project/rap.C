@@ -49,7 +49,7 @@ int main(int argc, char** argv) {
   strcpy( test.sentence, WHERE );
   printf( "%s\n", test.sentence );
 
-  dataPacket outbound;
+  struct dataPacket outbound;
   outbound.packetType = TCP;
   outbound.packetDataLength = strlen(WHERE);
 
@@ -63,7 +63,7 @@ int main(int argc, char** argv) {
 
   // now when we try to write the data, the changes stick
   strcpy( outbound.packetPayload, WHERE );
-  outbound.packetPayload[0] = 'a';
+  outbound.packetPayload[0] = 'W';
 
   // this is what the developer might use this for
   //protocol_send(outbound);
@@ -78,7 +78,7 @@ int main(int argc, char** argv) {
   puts( (outbound.packetPayload) );
 
   // can we change it?
-  outbound.packetPayload[0] = 'f';
+  outbound.packetPayload[0] = 'W';
   puts( (outbound.packetPayload) );
 
   // we can! This is a terrible error waiting to happen
