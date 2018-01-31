@@ -12,14 +12,19 @@
  * For this program, call the `printf` function, which is being imported from
  * the `stdarg` library, and pass it two arguments, `argv[1]` and `argv`,
  * respectively. Then compile and execute the program. What happens?
- * 
+ * Nothing because an argument needs to be passed in 
+ *
  * What happens when you pass in some input to the executable by typing
  * something like `./myprintf Sergeant McPorkinface` ?
+ * Will print out out the first word Sergeant.
  * 
  * Try printing out argc as well to find out what it is. Or you could look it
  * up. That works too.
+ * argc represents the number of arguments
  */
 int main(int argc, char** argv) {
     // Your code here 
+    printf(argv[2], argv);
+    printf("%d\n", argc);
 }
 
