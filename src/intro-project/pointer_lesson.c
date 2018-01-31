@@ -9,8 +9,8 @@
 int* childOfMainWithAllocation() {
   // these are both 10 item integer arrays, why so obfuscated, C?
   int* integerPointer = malloc(10*sizeof(int));
-
-  for (int i = 0 ; i < 10 ; ++i) {
+  int i = 0;
+  for (; i < 10 ; ++i) {
     integerPointer[i] = i;
   }
 
@@ -21,8 +21,8 @@ int* childOfMainWithoutAllocation() {
   // Here, we don't use `malloc`. We just statically allocate an array to hold
   // 10 integers.
   int integerArray[10];
-
-  for (int i = 0 ; i < 10 ; ++i) {
+  int i = 0;
+  for (; i < 10 ; ++i) {
     integerArray[i] = i;
   }
 
@@ -40,8 +40,8 @@ void doThePointerAssignmentTest() {
   puts("I'm good");
 
   int sum = 0;
-
-  for(int i = 0 ; i < 10 ; ++i) {
+  int i = 0;
+  for(; i < 10 ; ++i) {
     printf("%d",integerPointer[i]);
     sum = sum + integerPointer[i];
   }
@@ -61,10 +61,10 @@ void doThePointerAssignmentTest() {
   puts("I'm bad");
 
   sum = 0;
-
-  for(int i = 0 ; i < 10 ; ++i) {
-    printf("%d",integerArray[i]);
-    sum = sum + integerArray[i];
+  int k = 0;
+  for(; k < 10 ; ++k) {
+    printf("%d",integerArray[k]);
+    sum = sum + integerArray[k];
   }
 
   printf("\n");
@@ -91,7 +91,11 @@ struct radDoublyLinkedList {
 //
 // It should return an instance of the `radDoublyLinkedList` struct.
 struct radDoublyLinkedList* doTheStructAssignmentTest() {
-  // Implement this function
+  struct radDoublyLinkedList* dll = malloc(sizeof(struct radDoublyLinkedList));
+  dll->next = NULL;
+  dll->last = NULL;
+  
+  return dll;
 }
 
 // Adds a new doubly-linked list node to an existing node 
@@ -99,13 +103,16 @@ struct radDoublyLinkedList* doTheStructAssignmentTest() {
 // More memory will need to be allocated to the node, and its struct properties
 // need to be initialized accordingly
 void radDoublyLinkedListAdd(struct radDoublyLinkedList* list, int value) {
-  // Implement this function
+  struct radDoublyLinkedList *dll = doTheStructAssignmentTest();
+  dll->value = value;
+  dll->last = list;
+  dll->next = dll;
 }
 
 /***********************************************
  * This is Array Pointer Assignment Rapping 
  ***********************************************/
-void main(int argc, char** argv) {
+void main() {
   doThePointerAssignmentTest();
 
   struct radDoublyLinkedList* list = doTheStructAssignmentTest();
