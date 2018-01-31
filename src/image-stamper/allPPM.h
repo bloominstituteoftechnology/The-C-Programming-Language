@@ -1,3 +1,3 @@
-	#include "/.ppm/audio.h"
-	#include "/.ppm/ReactRouter.h"
-	#include "/.ppm/jQuery.h"
+	#include "./ppm/audio.h"
+	#include "./ppm/ReactRouter.h"
+	#include "./ppm/jQuery.h"

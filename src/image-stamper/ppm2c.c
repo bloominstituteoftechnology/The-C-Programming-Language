@@ -120,7 +120,7 @@ int main(int argc, char **argv)
         if (feof(allH)) break;
         strcat(allBuf, c);
     } while(true);
-    sprintf(hBuf, "\t#include \"/.ppm/%s.h\"\n", fileName);
+    sprintf(hBuf, "\t#include \"./ppm/%s.h\"\n", fileName);
     if (strstr(allBuf,hBuf) == NULL) {
         fputs(hBuf, allH);
     }
