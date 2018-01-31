@@ -1,30 +1,13 @@
-state: 0buffer length 1  buffer a 
-lb is 1, fo: ANTIDISESTABLISHMENTARIANISM
-state: 0buffer length 1  buffer s 
-lb is 1, fo: SESTABLISHMENTARIANISM
 state: 0buffer length 1  buffer t 
-lb is 1, fo: TIDISESTABLISHMENTARIANISM
-state: 0buffer length 1  buffer i 
-lb is 1, fo: IDISESTABLISHMENTARIANISM
-state: 0buffer length 1  buffer r 
-lb is 1, fo: RIANISM
-state: 0buffer length 1  buffer s 
-state: 1buffer length 1  buffer n 
-lb is 1, fo: NTIDISESTABLISHMENTARIANISM
-state: 1buffer length 1  buffer m 
-lb is 1, fo: MENTARIANISM
-state: 1buffer length 1  buffer h 
-lb is 1, fo: HMENTARIANISM
+lb is 1, fo: TEST
+state: 0buffer length 1  buffer t 
 state: 1buffer length 1  buffer x 
 lb is 1, fo: (null)
-state: 2buffer length 1  buffer y 
+state: 2buffer length 1  buffer x 
+state: 3buffer length 1  buffer x 
+state: 4buffer length 1  buffer c 
 lb is 1, fo: (null)
-state: 3buffer length 1  buffer e 
-lb is 1, fo: ESTABLISHMENTARIANISM
-state: 3buffer length 1  buffer d 
-lb is 1, fo: DISESTABLISHMENTARIANISM
-state: 3buffer length 1  buffer b 
-lb is 1, fo: BLISHMENTARIANISM
-state: 3buffer length 1  buffer l 
-lb is 1, fo: LISHMENTARIANISM
-state: 3
+state: 5buffer length 1  buffer c 
+state: 6buffer length 1  buffer c 
+state: 7buffer length 1  buffer c 
+state: 8

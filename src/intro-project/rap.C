@@ -39,7 +39,7 @@ struct dataPacket {
   char* packetPayload;
 };
 
-int main(int argc, char** argv) {
+int main() {
   helloArray test;
 
   // look up the strcpy function 

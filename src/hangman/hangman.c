@@ -3,12 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#ifdef debugging
-#include <stdio.h>
-#endif
 #include <unistd.h>
-#define MIN(a, b) ((a) < (b) ? a : b)
-char HANG_STATES[7][10 * 9] =
+// #define MIN(a, b) ((a) < (b) ? a : b)
+const char HANG_STATES[7][10 * 9 + 1] =
 	{
 		"             +         +----     +----     +----     +----     +----     +----     +----  ",
 		"             |         |         |   O     |   O     |   O     |   O     |   O     |   O  ",
@@ -27,15 +24,15 @@ int showLetters(char *good, char *bad)
 	for (char c = 'A'; c <= 'Z'; c++)
 	{
 		t[0] = c;
-		const char * goodPtr = strstr(good, t);
-		const char * badPtr = strstr(bad, t);
+		const char *goodPtr = strstr(good, t);
+		const char *badPtr = strstr(bad, t);
 
 		if (goodPtr != NULL)
-			printf("\033[1;32m%c\033[0m", c);
+			printf("\033[1;32m%c\033[0m", c); // green
 		else if (badPtr != NULL)
-			printf("\033[9;31m%c\033[0m", c);
+			printf("\033[9;31m%c\033[0m", c); // red with strikethough
 		else
-			printf("\033[0;37m%c\033[0m", c);
+			printf("\033[0;37m%c\033[0m", c); // grey
 	}
 	puts("\n\n");
 	return 0;
@@ -44,23 +41,24 @@ int showLetters(char *good, char *bad)
 int hangMan(char *word)
 {
 	const int NC = 26;
-	const int MAX_WORD_LENTH = 255;
+	const int MAX_WORD_LENGTH = 255;
 	int state = 0;
 	int L = strlen(word);
-	char *current = malloc(L + 1);
-	char *uword = malloc(L + 1);
+	char *current = (char *)malloc(L + 1);
+	char *uword = (char *)malloc(L + 1);
 	for (int i = 0; i < L; i++)
 		uword[i] = toupper(word[i]);
 	uword[L] = 0;
 	memset(current, '_', L);
 	current[L] = 0;
 
-	char *bad = malloc(NC + 1);
+	char *bad = (char *)malloc(NC + 1);
 	*bad = 0;
-	char *good = malloc(NC + 1);
+	char *good = (char *)malloc(NC + 1);
 	*good = 0;
 
-	char *buffer = malloc(MAX_WORD_LENTH + 1);
+	char *buffer = (char *)malloc(MAX_WORD_LENGTH + 1);
+
 	size_t len = 255;
 	int done = 0;
 	char t[2] = {0, 0};
@@ -76,13 +74,13 @@ int hangMan(char *word)
 		}
 		printf("\n%s\n\n", current);
 		showLetters(good, bad);
-		if (done > 0)
+		if (done > 0 || state == 8)
 		{
 			free(uword);
 			free(current);
 			free(bad);
 			free(buffer);
-			return 0;
+			return (state == 8) ? 1 : 0;
 		}
 		puts("Enter your guess for the word or a guess for a character in the word");
 		getline(&buffer, &len, stdin);
@@ -176,6 +174,8 @@ int main(int argc, char *argv[])
 		printf("you won with word '%s'\n", word);
 	else
 		printf("you lost\n");
+#ifdef debugging
 	fclose(f);
+#endif
 	return 0;
 }

@@ -19,24 +19,24 @@ int *childOfMainWithAllocation()
   return integerPointer;
 }
 
-int *childOfMainWithoutAllocation()
-{
-  // Here, we don't use `malloc`. We just statically allocate an array to hold
-  // 10 integers.
-  int integerArray[10];
+// int *childOfMainWithoutAllocation()
+// {
+//   // Here, we don't use `malloc`. We just statically allocate an array to hold
+//   // 10 integers.
+//   int integerArray[10];
 
-  for (int i = 0; i < 10; ++i)
-  {
-    integerArray[i] = i;
-  }
+//   for (int i = 0; i < 10; ++i)
+//   {
+//     integerArray[i] = i;
+//   }
 
-  // The `&` operator is the inverse of the `*` operator. It outputs the actual
-  // memory address of its operand, not the operand's value.
+//   // The `&` operator is the inverse of the `*` operator. It outputs the actual
+//   // memory address of its operand, not the operand's value.
 
-  // HOWEVER, returning &integerArray is bad news. WHY?
-  // when function goes out of scope local vars are popped off of stack, locations can be written over anytime anything is pushed to stack
-  return integerArray;
-}
+//   // HOWEVER, returning &integerArray is bad news. WHY?
+//   // when function goes out of scope local vars are popped off of stack, locations can be written over anytime anything is pushed to stack
+//   return integerArray;
+// }
 
 void doThePointerAssignmentTest()
 {
@@ -60,24 +60,24 @@ void doThePointerAssignmentTest()
 
   printf("\n");
 
-  int *integerArray = childOfMainWithoutAllocation();
+  // int *integerArray = childOfMainWithoutAllocation();
 
-  // WHY is childOfMainWithoutAllocation() BAD?
-  // It is VERY bad... but why?
-  // integerArray is pointing to an unallocated stack location and causes Segmentation fault
-  puts("I'm bad");
+  // // WHY is childOfMainWithoutAllocation() BAD?
+  // // It is VERY bad... but why?
+  // // integerArray is pointing to an unallocated stack location and causes Segmentation fault
+  // puts("I'm bad");
 
-  sum = 0;
+  // sum = 0;
 
-  for (int i = 0; i < 10; ++i)
-  {
-    printf("%d", integerArray[i]);
-    sum = sum + integerArray[i];
-  }
+  // for (int i = 0; i < 10; ++i)
+  // {
+  //   printf("%d", integerArray[i]);
+  //   sum = sum + integerArray[i];
+  // }
 
-  printf("\n");
-  printf("Sum: %d\n", sum);
-  printf("\n");
+  // printf("\n");
+  // printf("Sum: %d\n", sum);
+  // printf("\n");
 }
 
 /***********************************************
@@ -102,7 +102,7 @@ struct radDoublyLinkedList
 struct radDoublyLinkedList *doTheStructAssignmentTest()
 {
   // Implement this function
-  struct radDoublyLinkedList *rd = malloc(sizeof(radDoublyLinkedList));
+  struct radDoublyLinkedList *rd = (struct radDoublyLinkedList *)malloc(sizeof(radDoublyLinkedList));
   rd->next = NULL;
   rd->last = NULL;
   return rd;
@@ -125,7 +125,7 @@ void radDoublyLinkedListAdd(struct radDoublyLinkedList *list, int value)
 /***********************************************
  * This is Array Pointer Assignment Rapping 
  ***********************************************/
-void main(int argc, char **argv)
+int main()
 {
   doThePointerAssignmentTest(); // ____
 
@@ -138,6 +138,7 @@ void main(int argc, char **argv)
     list = list->next;
     free(freeItem);
   }
+  return 0;
 }
 
 // You'll need to implement the `doTheStructAssignmentTest` function and the

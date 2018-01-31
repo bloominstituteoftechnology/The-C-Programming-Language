@@ -8,7 +8,7 @@
 extern void run_cmd(char *cmd);
 extern void GetFileParts(char *path, char *path_, char *base_, char *ext_);
 
-#define MAX_PATHNAME_LEN 4080
+#define MAX_PATHNAME_LENGTH 4080
 #define TARGET_PATH "/home/mark/lambda/The-C-Programming-Language/src/image-stamper/ppm/"
 #define MAX_LINE_LENGTH 512
 #define MAX_PPM_LINE_FIELDS 100
@@ -25,7 +25,7 @@ int main(int argc, char **argv)
 #endif
     if (argc != 2)
     {
-        printf("must be a single arg with name of image file");
+        printf("must be a single arg with name of image file\n");
         return 1;
     }
     char *inFile = argv[1];
@@ -36,20 +36,29 @@ int main(int argc, char **argv)
 #if debug
     printf("ext: %s\n", ext);
 #endif
-    char outputFile[MAX_PATHNAME_LEN];
+    char outputFile[MAX_PATHNAME_LENGTH];
     strcpy(outputFile, TARGET_PATH);
 
 #if debug
     printf("just after TARGET_PATH copy ext: %s outputFile: %s\n", ext, outputFile);
 #endif
-    char *fileName = malloc(MAX_PATHNAME_LEN * sizeof(char));
+    char *fileName = malloc(MAX_PATHNAME_LENGTH * sizeof(char));
     char *ext_ = malloc(MAX_EXT_LENGTH * sizeof(char));
-    char *path = malloc(MAX_PATHNAME_LEN * sizeof(char));
+    char *path = malloc(MAX_PATHNAME_LENGTH * sizeof(char));
     GetFileParts(inFile, path, fileName, ext_);
 #if debug
     printf("after parts inFile: %s fileName: %s ext_: %s path: %s\n", inFile, fileName, ext_, path);
 #endif
-    char *hPath = (char *)malloc(MAX_PATHNAME_LEN * sizeof(char));
+    FILE * allH = fopen("allPPM.h","a+");
+#define maxIncludeLength 100; 
+    char * allBuf = malloc(maxHFileNameLength*100);
+    allBuf[0] = 0;
+    do {
+        fgets(c, maxIncludeLength, allH);
+        if (feof(allH)) break;
+    }
+
+    char *hPath = (char *)malloc(MAX_PATHNAME_LENGTH * sizeof(char));
     strcat(outputFile, fileName);
     free(fileName);
     free(ext_);
@@ -89,75 +98,95 @@ int main(int argc, char **argv)
 
     if (sscanf(hBuf, "%d %d", &h, &w) != 2)
     {
-        printf("bad PPM file, second line doesn't have numeric width and height %s", hBuf);
+        printf("bad PPM file, second line doesn't have numeric width and height %s\n", hBuf);
         return 1;
     }
-    /*
-    int scanCount = 0;
-
-    while (fscanf(f, "%d") == 1) {
-
-        scanCount++;
-    }
-    
-    char *format = (char *)malloc(MAX_PPM_LINE_FIELDS * 3 + 1);
-    format[0] = 0;
-    strcpy(hBuf, "%d ");
-    for (int i = 0; i < MAX_PPM_LINE_FIELDS; i++)
-        strcat(format, hBuf);
-    hBuf[strlen(hBuf) - 1] = 0;
-    int *li = (int *)malloc(100 * sizeof(int));
-    while (fgets(hBuf, MAX_LINE_LENGTH, f))
-    {
-        sscanf(hBuf, format, 
-        li, li+1,li+2, li+3,li+4,li+5, li+6, li+7, li+8, li+9,
-        li+10, li+11,li+12, li+13,li+14,li+15, li+16, li+17, li+18, li+19,
-        li+20, li+1,li+22, li+23,li+24,li+25, li+26, li+27, li+28, li+29,
-        li+30, li+31,li+32, li+33,li+34,li+5, li+6, li+7, li+8, li+9,
-        li+40, li+41,li+42, li+43,li+44,li+5, li+6, li+7, li+8, li+9,
-        li+50, li+51,li+52, li+53,li+54,li+5, li+6, li+7, li+8, li+9,
-        li+60, li+61,li+62, li+63,li+64,li+5, li+6, li+7, li+8, li+9,
-        li+70, li+71,li+72, li+73,li+74,li+5, li+6, li+7, li+8, li+9,
-        li+80, li+81,li+82, li+83,li+84,li+5, li+6, li+7, li+8, li+9,
-        li+90, li+91,li+92, li+93,li+94,li+5, li+6, li+7, li+8, li+9,
-    }
-*/
-    fileName = malloc(MAX_PATHNAME_LEN * sizeof(char));
+    fileName = malloc(MAX_PATHNAME_LENGTH * sizeof(char));
     ext_ = malloc(MAX_EXT_LENGTH * sizeof(char));
-    path = malloc(MAX_PATHNAME_LEN * sizeof(char));
+    path = malloc(MAX_PATHNAME_LENGTH * sizeof(char));
+    fileName[0] = 0;
+    ext_[0] = 0;
+    path[0] = 0;
     GetFileParts(outputFile, path, fileName, ext_);
+#if debug
+    printf("after parts outputFile: %s fileName: %s ext_: %s path: %s\n", outputFile, fileName, ext_, path);
+#endif   
+    char * capFileName = strdup(fileName);
+    capFileName[0] = toupper(capFileName[0]);
     strcpy(hPath, TARGET_PATH);
     strcat(hPath, fileName);
     strcat(hPath, ".h");
     // free(fileName);
     free(ext_);
     free(path);
+
     unlink(hPath);
     FILE *out = fopen(hPath, "w");
     FILE *in = fopen("base.h.txt", "r");
 
     hBuf[0] = 0;
-    while (fscanf(in, "%[^\n]", c) == 1)
+#if debug
+    printf("before h while hPath %s  out->_flags: %d\n", hPath, out->_flags);
+#endif    
+    while(fgets(c, MAX_LINE_LENGTH, in))
     {
-        strcat(hBuf, strcat(c, "\n"));
+        strcat(hBuf, c);
     }
     fclose(in);
-    fprintf(out, hBuf, fileName);
+#if debug
+    printf("hBuf %s, fileName: %s\n",hBuf, fileName);
+#endif    
+    fprintf(out, hBuf, capFileName);
     fclose(out);
     strcpy(hPath, TARGET_PATH);
     strcat(hPath, fileName);
     strcat(hPath, ".c");
+#if debug
+    printf("c hPath: %s\n",hPath);
+    // const int maxLines = 10;
+    int lines = 0;
+#endif     
     unlink(hPath);
     out = fopen(hPath, "w");
-    in = fopen("base.c.txt", "r");
+    in = fopen("base.c.txt", "r");  
     hBuf[0] = 0;
-    while (fscanf(in, "%[^\n]", c) == 1)
+ 
+    // while (fscanf(in, "%[^\n]", c) == 1)
+    do 
     {
-        strcat(hBuf, strcat(c, "\n"));
-    }
+        fgets(c, MAX_LINE_LENGTH, in);
+        strcat(hBuf, c);
+        if (feof(in)) {
+#if debug
+           printf("c input lines: %d\n", lines);
+#endif            
+            break;
+        }     
+#if debug
+        lines++;
+#endif         
+    } while(true);
     fclose(in);
-    fprintf(out, hBuf, fileName, fileName, fileName, w, h, outputFile);
+#if debug
+    printf("before c frpintf fileName: %s, w: %d, h: %d, outputFile: %s  hBuf length: %d  out->_flags: %d\n", fileName, w, h, outputFile,
+                (int)strlen(hBuf),out->_flags);
+    //fputs("0", out);
+    // printf("after test fputs of 0\n");
+    // return 0;
+#endif     
+    fprintf(out, hBuf, fileName, capFileName, w, h, outputFile);
+#if debug    
+    printf("after fprintf\n");
+#endif
     fclose(out);
+#if debug    
+    printf("after close\n");
+#endif    
     free(fileName);
+    free(capFileName);
+#if debug    
+    printf("after free fileName\n");
+#endif       
     free(hPath);
+    return 0;
 }

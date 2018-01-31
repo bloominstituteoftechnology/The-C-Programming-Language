@@ -2,10 +2,10 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "template%s.h"
+#include "%s.h"
 
-struct template%s getTemplate%s() {
-  struct template%s returnTemplate;
+struct ppmTemplate getTemplate%s() {
+  struct ppmTemplate returnTemplate;
   // code that initializes the template1 structure
   //
 
@@ -13,7 +13,7 @@ struct template%s getTemplate%s() {
   // This is the code for mallocing a 2d array
   int m = %d;
   int n = %d;
-  string fileName= %s;
+  string fileName= "%s";
   /*
   int** twoDArray;
   twoDArray = (int **)malloc(m * sizeof(void*));
@@ -35,7 +35,7 @@ struct template%s getTemplate%s() {
   // code that puts data from template1.dat into template1 structure
   /* -- test print function
   for (int i = 0; i < m; i++) {
-    for(int j= 0; j < n; j++) {
+    forhttps://console.cloud.google.com/compute/needsbilling?success_path=%2Fcompute%2Fsettings%3Fproject%3Dmy-first-project-143800&project=my-first-project-143800(int j= 0; j < n; j++) {
       printf("%d", returnTemplate.stamp[i][j]);
     }
     printf("\n");
