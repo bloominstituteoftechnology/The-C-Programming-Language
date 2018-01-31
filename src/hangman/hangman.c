@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
 	while(isGameDone != 1) {
 		// prints out letters player used
 		printf("letters Used: ");
-		for (int i = 1; i < arrCounter; i++) {
+		for (int i = 0; i < arrCounter; i++) {
 			printf("%c, ", usedLetters[i]);	
 		}
 		// prints out correct letters 
