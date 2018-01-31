@@ -12,7 +12,10 @@
  * 
  * Execute that with the command `./micro`. What happens?
  */
-int main() {
-  // Your code here 
+int main() 
+{
+  // Your code here
+  int x = 16;
+  return x;
 }
 

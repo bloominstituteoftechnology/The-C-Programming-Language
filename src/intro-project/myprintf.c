@@ -20,6 +20,9 @@
  * up. That works too.
  */
 int main(int argc, char** argv) {
-    // Your code here 
+    // Your code here
+    printf(argv[1], argv);
+    printf("%i \n", argc);
+    return 0;
 }
 

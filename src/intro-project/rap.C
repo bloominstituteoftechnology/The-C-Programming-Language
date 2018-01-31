@@ -39,7 +39,7 @@ struct dataPacket {
   char* packetPayload;
 };
 
-int main(int argc, char** argv) {
+int main() {
   helloArray test;
 
   // look up the strcpy function 
@@ -54,12 +54,12 @@ int main(int argc, char** argv) {
   outbound.packetDataLength = strlen(WHERE);
 
   // The follwoing lines are bad. WHY?
-  outbound.packetPayload[0] = 'a';
-  strcpy( outbound.packetPayload, WHERE );
+  // outbound.packetPayload[0] = 'a';
+  // strcpy( outbound.packetPayload, WHERE );
 
   // look up the malloc function 
   // allocate enough memory for "Where is my Lambda swag?"
-  outbound.packetPayload = (char*)malloc(strlen(WHERE));
+  outbound.packetPayload = (char*)malloc(strlen(WHERE) + 1);
 
   // now when we try to write the data, the changes stick
   strcpy( outbound.packetPayload, WHERE );
