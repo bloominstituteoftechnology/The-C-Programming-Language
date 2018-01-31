@@ -60,7 +60,6 @@ int main(int argc, char *argv[]) {
 						};
 						printf("\n");
 						printf("You Win!! \n");
-
 						isGameDone = 1;
 					}
 				}
