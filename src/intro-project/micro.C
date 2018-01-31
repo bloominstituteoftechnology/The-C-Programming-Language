@@ -12,7 +12,11 @@
  * 
  * Execute that with the command `./micro`. What happens?
  */
+#include <stdio.h>
 int main() {
-  // Your code here 
+  int x = 15;
+  printf("The value of x is: %d\n", x);
+
+  return 0;
 }
 

@@ -11,11 +11,11 @@
 // Here, this struct called `helloArray` holds a character array called
 // `sentence` that has been allocated 59 bytes of memory
 typedef struct {
-  char sentence[59];
+  char sentence[100];
 } helloArray;
 
 // An enum is much like a struct, except it is typically used to enforce that
-// one and only one state is active any any given moment. 
+// one and only one state is active any given moment. 
 //
 // This enum represents all of a data packet's possible types, which will always
 // be either a TCP packet, an IP packet, or a UDP packet. 
@@ -49,7 +49,7 @@ int main(int argc, char** argv) {
   strcpy( test.sentence, WHERE );
   printf( "%s\n", test.sentence );
 
-  dataPacket outbound;
+  struct dataPacket outbound;
   outbound.packetType = TCP;
   outbound.packetDataLength = strlen(WHERE);
 

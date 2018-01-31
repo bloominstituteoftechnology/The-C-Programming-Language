@@ -1,7 +1,8 @@
 // Imports in C are handled like so. Here we're including a header file called
 // `stdio` that provides headers for some functions that we'll need in this
-// file. 
+// file.
 #include <stdio.h>
+#include <stdarg.h>
 
 /* 
  * Notice the function inputs here being passed to this `main` function. The
@@ -19,7 +20,14 @@
  * Try printing out argc as well to find out what it is. Or you could look it
  * up. That works too.
  */
-int main(int argc, char** argv) {
-    // Your code here 
-}
+int main(int argc, char **argv)
+{
 
+    printf("argc = %d\n", argc);
+    for (int i = 0; i < argc; ++i)
+    {
+        printf("argv[ %d ] = %s\n", i, argv[i]);
+    }
+
+    return 0;
+}
