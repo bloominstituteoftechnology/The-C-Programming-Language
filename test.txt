@@ -1,0 +1,4 @@
+Some text  : "Where's my Lambda SWAG?"
+An integer : 1
+I love Pie git rm --cached FILENAME: 3.141593
+A character: 'X'
