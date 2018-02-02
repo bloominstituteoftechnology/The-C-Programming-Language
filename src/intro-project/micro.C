@@ -13,6 +13,8 @@
  * Execute that with the command `./micro`. What happens?
  */
 int main() {
-  // Your code here 
+  // Your code here
+  int x;
+  return 0; 
 }
 
