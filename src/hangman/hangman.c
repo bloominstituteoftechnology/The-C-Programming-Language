@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+//for PR
+
 char HANG_STATES[7][10 * 9] = 
 {
 	"             +         +----     +----     +----     +----     +----     +----     +----  ",
