@@ -27,8 +27,6 @@ int main(void)
 
 	// Pass a pointer to sum so the function can change it
 	add(3, 4, &sum);
-
     printf("%d\n", sum); // Prints 7
-    
-    return 0;
+    return NULL;
 }
